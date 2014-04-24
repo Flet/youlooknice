@@ -94,5 +94,18 @@ gulp.task('build-markup-with-livereload', function () {
 // help task -- list all available tasks
 gulp.task('help', require('gulp-task-listing'));
 
+
+// help task -- list all available tasks
+gulp.task('doc', function () {
+  var docco = require('gulp-docco');
+  gulp.src(paths.scripts)
+    .pipe(docco({
+      layout: 'linear'
+    }))
+    .pipe(gulp.dest('./documentation-output'));
+
+});
+
+
 // default task
 gulp.task('default', ['watch']);

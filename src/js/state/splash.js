@@ -1,35 +1,41 @@
-var Phaser = require('phaser');
-
 module.exports = Splash;
 
 function Splash() {
-  console.debug("creating splash state!");
   this.logo = null;
 }
 
 Splash.prototype.create = function () {
-  var midx = this.game.width / 2,
-    midy = this.game.height / 2,
-    logo, tween;
+  var midx = this.game.world.centerX,
+    midy = this.game.world.centerY;
 
-  logo = this.logo = this.add.sprite(midx, midy + 20, 'phaserLogo');
-  logo.anchor.x = logo.anchor.y = 0.5;
+  var logo = this.logo = this.add.sprite(midx, midy + 20, 'phaserLogo');
+  logo.anchor.setTo(0.5, 0.5);
   logo.alpha = 0;
 
-  tween = this.add.tween(logo);
+  var fadeIn = this.game.add.tween(logo);
+  var hold = this.game.add.tween(logo);
+  var fadeOut = this.game.add.tween(logo);
 
-  tween.onComplete.add(function () {
-    var self = this;
-    setTimeout(function () {
-      self.game.state.start('preloader');
-    }, 1000);
+  // fade in and slightly move up, hold for a half sec, then fade out
+  fadeIn.to({
+    alpha: 1,
+    y: midy
+  }, 1000, null, false);
 
+  hold.to({
+    alpha: 1
+  }, 500, null, false);
+
+  fadeOut.to({
+    alpha: 0
+  }, 500, null, false);
+
+  fadeIn.chain(hold);
+  hold.chain(fadeOut);
+  fadeIn.start();
+
+  fadeOut.onComplete.add(function () {
+    this.game.state.start('preloader');
   }, this);
 
-  tween
-    .to({
-      y: midy,
-      alpha: 1
-    }, 1000, Phaser.Easing.Linear.None)
-    .start();
 };

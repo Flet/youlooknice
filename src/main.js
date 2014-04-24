@@ -4,23 +4,19 @@
  *
  * @author Dan Flettre
  **/
-var Phaser = require('phaser');
 
-var game = new Phaser.Game(480, 320, Phaser.AUTO, 'content', null),
-  boot = require('./state/boot.js'),
-  preloader = require('./state/preloader'),
-  mainMenu = require('./state/mainMenu'),
-  level1 = require('./state/level1'),
-  splash = require('./state/splash');
+var game = require('./core/game'),
+  boot = require('./scenes/boot.js'),
+  preloader = require('./scenes/preloader'),
+  mainMenu = require('./scenes/mainMenu'),
+  level1 = require('./scenes/level1');
 
 
 /** add game states */
 game.state.add('boot', boot, false);
-game.state.add('splash', splash, false);
 game.state.add('preloader', preloader, false);
 game.state.add('mainMenu', mainMenu, false);
 game.state.add('level1', level1, false);
-
 
 //start the "boot" state
 game.state.start('boot');

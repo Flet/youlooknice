@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>mainMenu.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="../docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>mainMenu.js</h1>
+        
+
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="hljs-comment">/*globals module, require, localStorage*/</span>
+
+<span class="hljs-keyword">var</span> Phaser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'phaser'</span>);
+
+module.exports = {
+
+  create: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> game = <span class="hljs-keyword">this</span>.game;
+    <span class="hljs-keyword">var</span> tween, highscore = localStorage.getItem(<span class="hljs-string">"highscore"</span>),
+      lastscore = localStorage.getItem(<span class="hljs-string">"lastscore"</span>),
+      style = {
+        font: <span class="hljs-string">'30px Arial'</span>,
+        fill: <span class="hljs-string">'#fff'</span>
+      };
+
+    <span class="hljs-keyword">if</span> (highscore) {
+      <span class="hljs-keyword">this</span>.highscore = highscore;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">this</span>.highscore = <span class="hljs-number">0</span>;
+    }
+
+    <span class="hljs-keyword">this</span>.background = <span class="hljs-keyword">this</span>.add.sprite(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-string">'menu_background'</span>);
+    <span class="hljs-keyword">this</span>.background.alpha = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">this</span>.labelTitle = game.add.text(<span class="hljs-number">20</span>, <span class="hljs-number">20</span>, <span class="hljs-string">"Tap to start"</span>, style);
+    <span class="hljs-keyword">this</span>.labelTitle.alpha = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword">this</span>.highscoreLabel = game.add.text(<span class="hljs-number">20</span>, <span class="hljs-number">280</span>, <span class="hljs-string">"High Score: "</span> + <span class="hljs-keyword">this</span>.highscore, style);
+
+    <span class="hljs-keyword">if</span> (lastscore) {
+      <span class="hljs-keyword">this</span>.lastscoreLabel = game.add.text(<span class="hljs-number">20</span>, <span class="hljs-number">240</span>, <span class="hljs-string">"Last Score: "</span> + lastscore, style);
+    }
+
+    tween = <span class="hljs-keyword">this</span>.add.tween(<span class="hljs-keyword">this</span>.background).to({
+      alpha: <span class="hljs-number">1</span>
+    }, <span class="hljs-number">500</span>, Phaser.Easing.Linear.None, <span class="hljs-literal">true</span>);
+    <span class="hljs-keyword">this</span>.add.tween(<span class="hljs-keyword">this</span>.labelTitle).to({
+      alpha: <span class="hljs-number">1</span>
+    }, <span class="hljs-number">500</span>, Phaser.Easing.Linear.None, <span class="hljs-literal">true</span>);
+
+    tween.onComplete.add(<span class="hljs-keyword">this</span>.addPointerEvents, <span class="hljs-keyword">this</span>);
+  },
+
+  addPointerEvents: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.input.onDown.addOnce(<span class="hljs-keyword">this</span>.startGame, <span class="hljs-keyword">this</span>);
+  },
+
+  startGame: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.game.state.start(<span class="hljs-string">'level1'</span>, <span class="hljs-literal">true</span>, <span class="hljs-literal">false</span>);
+  }
+
+};</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

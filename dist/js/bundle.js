@@ -1,16 +1,13 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Phaser = (window.Phaser);
-
-module.exports = new Phaser.Game(480, 320, Phaser.AUTO, 'content', null);
-},{}],2:[function(require,module,exports){
 /**
  * @module main
  * @description This is the main entry point used to build bundle.js
  *
  * @author Dan Flettre
  **/
+var Phaser = (window.Phaser);
 
-var game = require('./core/game'),
+var game = new Phaser.Game(480, 320, Phaser.AUTO, 'content', null),
   boot = require('./state/boot.js'),
   preloader = require('./state/preloader'),
   mainMenu = require('./state/mainMenu'),
@@ -28,8 +25,7 @@ game.state.add('level1', level1, false);
 
 //start the "boot" state
 game.state.start('boot');
-this.game.state.start('Splash');
-},{"./core/game":1,"./state/boot.js":3,"./state/level1":4,"./state/mainMenu":5,"./state/preloader":6,"./state/splash":7}],3:[function(require,module,exports){
+},{"./state/boot.js":2,"./state/level1":3,"./state/mainMenu":4,"./state/preloader":5,"./state/splash":6}],2:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 module.exports = Boot;
@@ -74,144 +70,143 @@ Boot.prototype.create = function () {
   // So now let's start the real preloader going
   this.game.state.start('splash');
 };
-},{}],4:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 /* globals module, require, localStorage*/
 
-var Phaser = (window.Phaser),
-    game = require('../core/game');
+var Phaser = (window.Phaser);
 
 
 module.exports = {
-    create: function () {
+  create: function () {
+    var game = this.game;
+    game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+    this.background = this.add.sprite(0, 0, 'menu_background');
 
-        this.background = this.add.sprite(0, 0, 'menu_background');
+    this.player = this.add.sprite(50, 50, 'game_sprites');
 
-        this.player = this.add.sprite(50, 50, 'game_sprites');
+    game.physics.enable(this.player, Phaser.Physics.ARCADE);
+    this.player.body.gravity.y = 1000;
 
-        game.physics.enable(this.player, Phaser.Physics.ARCADE);
-        this.player.body.gravity.y = 1000;
+    this.blocks = game.add.group();
+    this.blocks.enableBody = true;
+    this.blocks.physicsBodyType = Phaser.Physics.ARCADE;
 
-        this.blocks = game.add.group();
-        this.blocks.enableBody = true;
-        this.blocks.physicsBodyType = Phaser.Physics.ARCADE;
-
-        this.blocks.createMultiple(10, 'game_sprites', 1);
+    this.blocks.createMultiple(10, 'game_sprites', 1);
 
 
-        this.input.onDown.add(this.jump, this);
+    this.input.onDown.add(this.jump, this);
 
-        this.blockTimer = game.time.events.loop(500, this.addBlock, this);
-        this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.addScore, this);
+    this.blockTimer = game.time.events.loop(500, this.addBlock, this);
+    this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.addScore, this);
 
-        this.score = 0;
-        var style = {
-            font: '30px Arial',
-            fill: '#fff'
-        };
-        this.labelScore = game.add.text(20, 20, "0", style);
-    },
+    this.score = 0;
+    var style = {
+      font: '30px Arial',
+      fill: '#fff'
+    };
+    this.labelScore = game.add.text(20, 20, "0", style);
+  },
 
-    update: function () {
-        if (this.player.inWorld === false) {
-            this.restartGame();
-        }
-        game.physics.arcade.overlap(this.player, this.blocks, this.restartGame, null, this);
+  update: function () {
+    var game = this.game;
+    if (this.player.inWorld === false) {
+      this.restartGame();
+    }
+    game.physics.arcade.overlap(this.player, this.blocks, this.restartGame, null, this);
 
-        this.labelScore.setText("" + this.score);
-    },
+    this.labelScore.setText("" + this.score);
+  },
 
-    jump: function () {
-        this.player.body.velocity.y = -350;
-    },
+  jump: function () {
+    this.player.body.velocity.y = -350;
+  },
 
-    addBlock: function () {
-        var x = 480,
-            y = ((Math.floor(Math.random() * 5) + 1) * 60) - 30;
+  addBlock: function () {
+    var x = 480,
+      y = ((Math.floor(Math.random() * 5) + 1) * 60) - 30;
 
-        var block = this.blocks.getFirstDead();
-        block.reset(x, y);
-        block.body.velocity.x = -200;
-        block.checkWorldBounds = true;
-        block.outOfBoundsKill = true;
-    },
+    var block = this.blocks.getFirstDead();
+    block.reset(x, y);
+    block.body.velocity.x = -200;
+    block.checkWorldBounds = true;
+    block.outOfBoundsKill = true;
+  },
 
-    addScore: function () {
-        this.score += 1;
-        this.labelScore.content = this.score;
-    },
+  addScore: function () {
+    this.score += 1;
+    this.labelScore.content = this.score;
+  },
 
-    restartGame: function () {
-
-        var previousHighscore = localStorage.getItem("highscore");
-        if (!previousHighscore || previousHighscore < this.score) {
-            localStorage.setItem("highscore", this.score);
-        }
-
-        localStorage.setItem("lastscore", this.score);
-
-        game.time.events.remove(this.blockTimer);
-        game.time.events.remove(this.scoreTimer);
-        game.state.start('mainMenu');
+  restartGame: function () {
+    var game = this.game;
+    var previousHighscore = localStorage.getItem("highscore");
+    if (!previousHighscore || previousHighscore < this.score) {
+      localStorage.setItem("highscore", this.score);
     }
 
+    localStorage.setItem("lastscore", this.score);
+
+    game.time.events.remove(this.blockTimer);
+    game.time.events.remove(this.scoreTimer);
+    game.state.start('mainMenu');
+  }
+
 };
-},{"../core/game":1}],5:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /*globals module, require, localStorage*/
 
-var Phaser = (window.Phaser),
-    game = require('../core/game');
+var Phaser = (window.Phaser);
 
 module.exports = {
 
-    create: function () {
+  create: function () {
+    var game = this.game;
+    var tween, highscore = localStorage.getItem("highscore"),
+      lastscore = localStorage.getItem("lastscore"),
+      style = {
+        font: '30px Arial',
+        fill: '#fff'
+      };
 
-        var tween, highscore = localStorage.getItem("highscore"),
-            lastscore = localStorage.getItem("lastscore"),
-            style = {
-                font: '30px Arial',
-                fill: '#fff'
-            };
-
-        if (highscore) {
-            this.highscore = highscore;
-        } else {
-            this.highscore = 0;
-        }
-
-        this.background = this.add.sprite(0, 0, 'menu_background');
-        this.background.alpha = 0;
-
-        this.labelTitle = game.add.text(20, 20, "Tap to start", style);
-        this.labelTitle.alpha = 0;
-
-        this.highscoreLabel = game.add.text(20, 280, "High Score: " + this.highscore, style);
-
-        if (lastscore) {
-            this.lastscoreLabel = game.add.text(20, 240, "Last Score: " + lastscore, style);
-        }
-
-        tween = this.add.tween(this.background).to({
-            alpha: 1
-        }, 500, Phaser.Easing.Linear.None, true);
-        this.add.tween(this.labelTitle).to({
-            alpha: 1
-        }, 500, Phaser.Easing.Linear.None, true);
-
-        tween.onComplete.add(this.addPointerEvents, this);
-    },
-
-    addPointerEvents: function () {
-        this.input.onDown.addOnce(this.startGame, this);
-    },
-
-    startGame: function () {
-        game.state.start('level1', true, false);
+    if (highscore) {
+      this.highscore = highscore;
+    } else {
+      this.highscore = 0;
     }
 
+    this.background = this.add.sprite(0, 0, 'menu_background');
+    this.background.alpha = 0;
+
+    this.labelTitle = game.add.text(20, 20, "Tap to start", style);
+    this.labelTitle.alpha = 0;
+
+    this.highscoreLabel = game.add.text(20, 280, "High Score: " + this.highscore, style);
+
+    if (lastscore) {
+      this.lastscoreLabel = game.add.text(20, 240, "Last Score: " + lastscore, style);
+    }
+
+    tween = this.add.tween(this.background).to({
+      alpha: 1
+    }, 500, Phaser.Easing.Linear.None, true);
+    this.add.tween(this.labelTitle).to({
+      alpha: 1
+    }, 500, Phaser.Easing.Linear.None, true);
+
+    tween.onComplete.add(this.addPointerEvents, this);
+  },
+
+  addPointerEvents: function () {
+    this.input.onDown.addOnce(this.startGame, this);
+  },
+
+  startGame: function () {
+    this.game.state.start('level1', true, false);
+  }
+
 };
-},{"../core/game":1}],6:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 module.exports = {
@@ -240,40 +235,46 @@ module.exports = {
     }
 
 };
-},{}],7:[function(require,module,exports){
-var Phaser = (window.Phaser);
-
+},{}],6:[function(require,module,exports){
 module.exports = Splash;
 
 function Splash() {
-  console.debug("creating splash state!");
   this.logo = null;
 }
 
 Splash.prototype.create = function () {
-  var midx = this.game.width / 2,
-    midy = this.game.height / 2,
-    logo, tween;
+  var midx = this.game.world.centerX,
+    midy = this.game.world.centerY;
 
-  logo = this.logo = this.add.sprite(midx, midy + 20, 'phaserLogo');
-  logo.anchor.x = logo.anchor.y = 0.5;
+  var logo = this.logo = this.add.sprite(midx, midy + 20, 'phaserLogo');
+  logo.anchor.setTo(0.5, 0.5);
   logo.alpha = 0;
 
-  tween = this.add.tween(logo);
+  var fadeIn = this.game.add.tween(logo);
+  var hold = this.game.add.tween(logo);
+  var fadeOut = this.game.add.tween(logo);
 
-  tween.onComplete.add(function () {
-    var self = this;
-    setTimeout(function () {
-      self.game.state.start('preloader');
-    }, 1000);
+  // fade in and slightly move up, hold for a half sec, then fade out
+  fadeIn.to({
+    alpha: 1,
+    y: midy
+  }, 1000, null, false);
 
+  hold.to({
+    alpha: 1
+  }, 500, null, false);
+
+  fadeOut.to({
+    alpha: 0
+  }, 500, null, false);
+
+  fadeIn.chain(hold);
+  hold.chain(fadeOut);
+  fadeIn.start();
+
+  fadeOut.onComplete.add(function () {
+    this.game.state.start('preloader');
   }, this);
 
-  tween
-    .to({
-      y: midy,
-      alpha: 1
-    }, 1000, Phaser.Easing.Linear.None)
-    .start();
 };
-},{}]},{},[2])
+},{}]},{},[1])

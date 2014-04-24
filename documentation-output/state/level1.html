@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>level1.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../public/stylesheets/normalize.css" />
+  <link rel="stylesheet" media="all" href="../docco.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="page">
+
+      <div class="header">
+        
+          <h1>level1.js</h1>
+        
+
+        
+      </div>
+
+      
+        
+        
+        
+          <div class='highlight'><pre><span class="hljs-comment">/* globals module, require, localStorage*/</span>
+
+<span class="hljs-keyword">var</span> Phaser = <span class="hljs-built_in">require</span>(<span class="hljs-string">'phaser'</span>);
+
+
+module.exports = {
+  create: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> game = <span class="hljs-keyword">this</span>.game;
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    <span class="hljs-keyword">this</span>.background = <span class="hljs-keyword">this</span>.add.sprite(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-string">'menu_background'</span>);
+
+    <span class="hljs-keyword">this</span>.player = <span class="hljs-keyword">this</span>.add.sprite(<span class="hljs-number">50</span>, <span class="hljs-number">50</span>, <span class="hljs-string">'game_sprites'</span>);
+
+    game.physics.enable(<span class="hljs-keyword">this</span>.player, Phaser.Physics.ARCADE);
+    <span class="hljs-keyword">this</span>.player.body.gravity.y = <span class="hljs-number">1000</span>;
+
+    <span class="hljs-keyword">this</span>.blocks = game.add.group();
+    <span class="hljs-keyword">this</span>.blocks.enableBody = <span class="hljs-literal">true</span>;
+    <span class="hljs-keyword">this</span>.blocks.physicsBodyType = Phaser.Physics.ARCADE;
+
+    <span class="hljs-keyword">this</span>.blocks.createMultiple(<span class="hljs-number">10</span>, <span class="hljs-string">'game_sprites'</span>, <span class="hljs-number">1</span>);
+
+
+    <span class="hljs-keyword">this</span>.input.onDown.add(<span class="hljs-keyword">this</span>.jump, <span class="hljs-keyword">this</span>);
+
+    <span class="hljs-keyword">this</span>.blockTimer = game.time.events.loop(<span class="hljs-number">500</span>, <span class="hljs-keyword">this</span>.addBlock, <span class="hljs-keyword">this</span>);
+    <span class="hljs-keyword">this</span>.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, <span class="hljs-keyword">this</span>.addScore, <span class="hljs-keyword">this</span>);
+
+    <span class="hljs-keyword">this</span>.score = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> style = {
+      font: <span class="hljs-string">'30px Arial'</span>,
+      fill: <span class="hljs-string">'#fff'</span>
+    };
+    <span class="hljs-keyword">this</span>.labelScore = game.add.text(<span class="hljs-number">20</span>, <span class="hljs-number">20</span>, <span class="hljs-string">"0"</span>, style);
+  },
+
+  update: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> game = <span class="hljs-keyword">this</span>.game;
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.player.inWorld === <span class="hljs-literal">false</span>) {
+      <span class="hljs-keyword">this</span>.restartGame();
+    }
+    game.physics.arcade.overlap(<span class="hljs-keyword">this</span>.player, <span class="hljs-keyword">this</span>.blocks, <span class="hljs-keyword">this</span>.restartGame, <span class="hljs-literal">null</span>, <span class="hljs-keyword">this</span>);
+
+    <span class="hljs-keyword">this</span>.labelScore.setText(<span class="hljs-string">""</span> + <span class="hljs-keyword">this</span>.score);
+  },
+
+  jump: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.player.body.velocity.y = -<span class="hljs-number">350</span>;
+  },
+
+  addBlock: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> x = <span class="hljs-number">480</span>,
+      y = ((<span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">5</span>) + <span class="hljs-number">1</span>) * <span class="hljs-number">60</span>) - <span class="hljs-number">30</span>;
+
+    <span class="hljs-keyword">var</span> block = <span class="hljs-keyword">this</span>.blocks.getFirstDead();
+    block.reset(x, y);
+    block.body.velocity.x = -<span class="hljs-number">200</span>;
+    block.checkWorldBounds = <span class="hljs-literal">true</span>;
+    block.outOfBoundsKill = <span class="hljs-literal">true</span>;
+  },
+
+  addScore: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">this</span>.score += <span class="hljs-number">1</span>;
+    <span class="hljs-keyword">this</span>.labelScore.content = <span class="hljs-keyword">this</span>.score;
+  },
+
+  restartGame: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> game = <span class="hljs-keyword">this</span>.game;
+    <span class="hljs-keyword">var</span> previousHighscore = localStorage.getItem(<span class="hljs-string">"highscore"</span>);
+    <span class="hljs-keyword">if</span> (!previousHighscore || previousHighscore &lt; <span class="hljs-keyword">this</span>.score) {
+      localStorage.setItem(<span class="hljs-string">"highscore"</span>, <span class="hljs-keyword">this</span>.score);
+    }
+
+    localStorage.setItem(<span class="hljs-string">"lastscore"</span>, <span class="hljs-keyword">this</span>.score);
+
+    game.time.events.remove(<span class="hljs-keyword">this</span>.blockTimer);
+    game.time.events.remove(<span class="hljs-keyword">this</span>.scoreTimer);
+    game.state.start(<span class="hljs-string">'mainMenu'</span>);
+  }
+
+};</pre></div>
+        
+      
+      <div class="fleur">h</div>
+    </div>
+  </div>
+</body>
+</html>

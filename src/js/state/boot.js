@@ -13,6 +13,7 @@ Boot.prototype.preload = function () {
 };
 
 Boot.prototype.create = function () {
+  var game = this.game;
 
   // max number of fingers to detect
   // unless you specifically know your game needs to support multi-touch I would recommend setting this to 1
