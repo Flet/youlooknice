@@ -7,11 +7,10 @@
  *
  */
 
-
 // Get a handle to Phaser!
 // Note that the phaser lib is not actually part of this project anywhere.
 // Instead, we're using the CDN copy of phaser via `browserify-shim`.
-// You'll see a reference to the CDN copy in `index.html`.
+// You'll see a reference to the CDN copy in  [index.html](../index.html.html)
 var Phaser = (window.Phaser);
 
 // Create a new instance of phaser
@@ -32,10 +31,9 @@ game.state.add('preloader', preloader, false);
 game.state.add('mainMenu', mainMenu, false);
 game.state.add('level1', level1, false);
 
-
 // Kick off the game by starting up the `boot` state
 game.state.start('boot');
-// See [boot.js](state/boot.js.html) for the next step.
+// See [boot.js](state/boot.js.html) for the next step
 },{"./state/boot.js":2,"./state/level1":3,"./state/mainMenu":4,"./state/preloader":5,"./state/splash":6}],2:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
@@ -62,8 +60,8 @@ Boot.prototype.create = function () {
   // Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
   game.stage.disableVisibilityChange = true;
 
+  // If you have any desktop specific settings, they can go in here
   if (game.device.desktop) {
-    // If you have any desktop specific settings, they can go in here
     game.stage.scale.pageAlignHorizontally = true;
   } else {
     // Same goes for mobile settings.

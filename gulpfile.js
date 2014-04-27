@@ -1,7 +1,8 @@
 var gulp = require('gulp');
 
 var paths = {
-  markup: 'src/index.html',
+  readme: 'README.md',
+  markup: 'src/**/*.html',
   scriptsRoot: 'src/js/',
   scripts: 'src/js/**/*.js',
   assets: ['src/assets/*.png', 'src/assets/*.jpg'],
@@ -34,8 +35,8 @@ gulp.task('beautify', function () {
 gulp.task('build-js', function () {
   var browserify = require('browserify');
   var source = require('vinyl-source-stream');
-  var streamify = require('gulp-streamify');
-  var uglify = require('gulp-uglify');
+  //  var streamify = require('gulp-streamify');
+  //var uglify = require('gulp-uglify');
 
   var bundleStream = browserify(paths.mainjs).bundle();
 
@@ -71,11 +72,14 @@ gulp.task('static-server', function (next) {
 });
 
 gulp.task('watch', ['build', 'trigger-reload', 'build-markup-with-livereload', 'static-server'], function () {
+
   gulp.watch(paths.scripts, ['lint-js', 'build-js']);
   gulp.watch(paths.markup, ['build-markup-with-livereload']);
   gulp.watch(paths.assets, ['build-assets']);
   gulp.watch(paths.css, ['build-css']);
-  gulp.watch(paths.scripts, ['build-docs']);
+
+  // Watch everything except dist and node_modules for documentation updates.
+  gulp.watch([paths.markup, paths.scripts, paths.readme], ['build-docs']);
 });
 
 gulp.task('trigger-reload', function () {
@@ -107,14 +111,24 @@ gulp.task('build-docs', function () {
     outDir: 'dist/docs',
     colourScheme: 'monokai',
     ignoreHidden: 'true',
-    exclude: './node_modules/**'
+    exclude: 'node_modules*,dist*',
+    lineNums: true,
+    extras: ['fileSearch', 'goToLine'],
+    onlyUpdated: true
   });
 
+  return d.doc(['./']);
 
-  d.doc(['./']);
+});
 
 
-
+/*
+## clean
+Remove all filses in the `dist` folder.
+ */
+gulp.task('clean', function (cb) {
+  var rimraf = require('rimraf');
+  return rimraf('./dist', cb);
 });
 
 
