@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>main.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../", thisFile = "home/flet/youlooknice/src/js/mainjs", defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+  <script src="../../fileSearch.js"></script>
+  <script src="../../goToLine.js"></script>
+  <link rel="stylesheet" href="../../fileSearch.css" />
+  <link rel="stylesheet" href="../../goToLine.css" />
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>main.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>This is the main entry point of the game. We <code>require</code> Phaser as
+well as all of our states and add those states to the <code>game</code>.</p>
+  </div>
+  <div class="body"><p>Finally, we start the <code>boot</code> state which kicks off the game.</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-8" id="line-8">8</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<p>Get a handle to Phaser!
+Note that the phaser lib is not actually part of this project anywhere.
+Instead, we're using the CDN copy of phaser via <code>browserify-shim</code>.
+You'll see a reference to the CDN copy in  <a href="../index.html.html">index.html</a></p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-13" id="line-13">13</a>  
+<a class="line-num" href="#line-14" id="line-14">14</a>  <span class="kd">var</span> <span class="nx">Phaser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;phaser&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-15" id="line-15">15</a>  
+<a class="line-num" href="#line-16" id="line-16">16</a>  
+<a class="line-num" href="#line-17" id="line-17">17</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<p>Create a new instance of phaser</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-16" id="line-16">16</a>  
+<a class="line-num" href="#line-17" id="line-17">17</a>  <span class="kd">var</span> <span class="nx">game</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Phaser</span><span class="p">.</span><span class="nx">Game</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">320</span><span class="p">,</span> <span class="nx">Phaser</span><span class="p">.</span><span class="nx">AUTO</span><span class="p">,</span> <span class="s1">&#39;content&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">);</span>
+<a class="line-num" href="#line-18" id="line-18">18</a>  
+<a class="line-num" href="#line-19" id="line-19">19</a>  
+<a class="line-num" href="#line-20" id="line-20">20</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Bring in all of our states via <code>require</code> calls.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-19" id="line-19">19</a>  
+<a class="line-num" href="#line-20" id="line-20">20</a>  <span class="kd">var</span> <span class="nx">boot</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./state/boot.js&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-21" id="line-21">21</a>  <span class="kd">var</span> <span class="nx">preloader</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./state/preloader&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-22" id="line-22">22</a>  <span class="kd">var</span> <span class="nx">mainMenu</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./state/mainMenu&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-23" id="line-23">23</a>  <span class="kd">var</span> <span class="nx">level1</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./state/level1&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-24" id="line-24">24</a>  <span class="kd">var</span> <span class="nx">splash</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;./state/splash&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-25" id="line-25">25</a>  
+<a class="line-num" href="#line-26" id="line-26">26</a>  
+<a class="line-num" href="#line-27" id="line-27">27</a>  
+<a class="line-num" href="#line-28" id="line-28">28</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>Add all of our states to the Phaser game instance.</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-27" id="line-27">27</a>  
+<a class="line-num" href="#line-28" id="line-28">28</a>  <span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;boot&#39;</span><span class="p">,</span> <span class="nx">boot</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<a class="line-num" href="#line-29" id="line-29">29</a>  <span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;splash&#39;</span><span class="p">,</span> <span class="nx">splash</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<a class="line-num" href="#line-30" id="line-30">30</a>  <span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;preloader&#39;</span><span class="p">,</span> <span class="nx">preloader</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<a class="line-num" href="#line-31" id="line-31">31</a>  <span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;mainMenu&#39;</span><span class="p">,</span> <span class="nx">mainMenu</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<a class="line-num" href="#line-32" id="line-32">32</a>  <span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;level1&#39;</span><span class="p">,</span> <span class="nx">level1</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<a class="line-num" href="#line-33" id="line-33">33</a>  
+<a class="line-num" href="#line-34" id="line-34">34</a>  
+<a class="line-num" href="#line-35" id="line-35">35</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>Kick off the game by starting up the <code>boot</code> state</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-34" id="line-34">34</a>  
+<a class="line-num" href="#line-35" id="line-35">35</a>  <span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s1">&#39;boot&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-36" id="line-36">36</a>  
+<a class="line-num" href="#line-37" id="line-37">37</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<p>See <a href="state/boot.js.html">boot.js</a> for the next step</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-undefined" id="line-undefined">undefined</a>  
+<a class="line-num" href="#line-NaN" id="line-NaN">NaN</a>  </pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>
