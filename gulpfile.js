@@ -7,11 +7,12 @@ var paths = {
   assets: ['src/assets/*.png', 'src/assets/*.jpg'],
   css: 'src/css/*.css',
   dist: 'dist',
+  docsOutput: 'dist/docs',
   mainjs: './src/js/main.js',
   bundlejs: 'bundle.js'
 };
 
-gulp.task('build', ['lint-js', 'build-js', 'build-markup', 'build-assets', 'build-css']);
+gulp.task('build', ['lint-js', 'build-js', 'build-markup', 'build-assets', 'build-css', 'build-docs']);
 
 gulp.task('lint-js', function () {
   var jshint = require('gulp-jshint');
@@ -74,6 +75,7 @@ gulp.task('watch', ['build', 'trigger-reload', 'build-markup-with-livereload', '
   gulp.watch(paths.markup, ['build-markup-with-livereload']);
   gulp.watch(paths.assets, ['build-assets']);
   gulp.watch(paths.css, ['build-css']);
+  gulp.watch(paths.scripts, ['build-docs']);
 });
 
 gulp.task('trigger-reload', function () {
@@ -96,13 +98,22 @@ gulp.task('help', require('gulp-task-listing'));
 
 
 // help task -- list all available tasks
-gulp.task('doc', function () {
-  var docco = require('gulp-docco');
-  gulp.src(paths.scripts)
-    .pipe(docco({
-      layout: 'linear'
-    }))
-    .pipe(gulp.dest('./documentation-output'));
+gulp.task('build-docs', function () {
+  // var docco = require('gulp-docco');
+  var Docker = require('docker');
+
+  var d = new Docker({
+    inDir: '.',
+    outDir: 'dist/docs',
+    colourScheme: 'monokai',
+    ignoreHidden: 'true',
+    exclude: './node_modules/**'
+  });
+
+
+  d.doc(['./']);
+
+
 
 });
 

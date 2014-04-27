@@ -1,21 +1,31 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /**
- * @module main
- * @description This is the main entry point used to build bundle.js
+ * This is the main entry point of the game. We `require` Phaser as
+ * well as all of our states and add those states to the `game`.
  *
- * @author Dan Flettre
- **/
+ * Finally, we start the `boot` state which kicks off the game.
+ *
+ */
+
+
+// Get a handle to Phaser!
+// Note that the phaser lib is not actually part of this project anywhere.
+// Instead, we're using the CDN copy of phaser via `browserify-shim`.
+// You'll see a reference to the CDN copy in `index.html`.
 var Phaser = (window.Phaser);
 
-var game = new Phaser.Game(480, 320, Phaser.AUTO, 'content', null),
-  boot = require('./state/boot.js'),
-  preloader = require('./state/preloader'),
-  mainMenu = require('./state/mainMenu'),
-  level1 = require('./state/level1'),
-  splash = require('./state/splash');
+// Create a new instance of phaser
+var game = new Phaser.Game(480, 320, Phaser.AUTO, 'content', null);
+
+// Bring in all of our states via `require` calls.
+var boot = require('./state/boot.js');
+var preloader = require('./state/preloader');
+var mainMenu = require('./state/mainMenu');
+var level1 = require('./state/level1');
+var splash = require('./state/splash');
 
 
-/** add game states */
+//Add all of our states to the Phaser game instance.
 game.state.add('boot', boot, false);
 game.state.add('splash', splash, false);
 game.state.add('preloader', preloader, false);
@@ -23,15 +33,16 @@ game.state.add('mainMenu', mainMenu, false);
 game.state.add('level1', level1, false);
 
 
-//start the "boot" state
+// Kick off the game by starting up the `boot` state
 game.state.start('boot');
+// See [boot.js](state/boot.js.html) for the next step.
 },{"./state/boot.js":2,"./state/level1":3,"./state/mainMenu":4,"./state/preloader":5,"./state/splash":6}],2:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 module.exports = Boot;
 
 function Boot(game) {
-  console.info("creating Boot state!", game);
+  console.debug("creating Boot state!", game);
 }
 
 Boot.prototype.preload = function () {
@@ -41,6 +52,7 @@ Boot.prototype.preload = function () {
 };
 
 Boot.prototype.create = function () {
+  var game = this.game;
 
   // max number of fingers to detect
   // unless you specifically know your game needs to support multi-touch I would recommend setting this to 1
@@ -48,27 +60,27 @@ Boot.prototype.create = function () {
 
   // auto pause if window loses focus
   // Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
-  this.game.stage.disableVisibilityChange = true;
+  game.stage.disableVisibilityChange = true;
 
-  if (this.game.device.desktop) {
+  if (game.device.desktop) {
     // If you have any desktop specific settings, they can go in here
-    this.game.stage.scale.pageAlignHorizontally = true;
+    game.stage.scale.pageAlignHorizontally = true;
   } else {
     // Same goes for mobile settings.
     // In this case we're saying "scale the game, no lower than 480x260 and no higher than 1024x768"
-    this.game.stage.scaleMode = Phaser.StageScaleMode.SHOW_ALL;
-    this.game.stage.scale.minWidth = 480;
-    this.game.stage.scale.minHeight = 260;
-    this.game.stage.scale.maxWidth = 1024;
-    this.game.stage.scale.maxHeight = 768;
-    this.game.stage.scale.forceLandscape = true;
-    this.game.stage.scale.pageAlignHorizontally = true;
-    this.game.stage.scale.setScreenSize(true);
+    game.stage.scaleMode = Phaser.StageScaleMode.SHOW_ALL;
+    game.stage.scale.minWidth = 480;
+    game.stage.scale.minHeight = 260;
+    game.stage.scale.maxWidth = 1024;
+    game.stage.scale.maxHeight = 768;
+    game.stage.scale.forceLandscape = true;
+    game.stage.scale.pageAlignHorizontally = true;
+    game.stage.scale.setScreenSize(true);
   }
 
   // By this point the preloader assets have loaded to the cache, we've set the game settings
   // So now let's start the real preloader going
-  this.game.state.start('splash');
+  game.state.start('splash');
 };
 },{}],3:[function(require,module,exports){
 /* globals module, require, localStorage*/
@@ -201,6 +213,11 @@ module.exports = {
     this.input.onDown.addOnce(this.startGame, this);
   },
 
+  /**
+   * ## startGame
+   * Starts up the game!
+   * @return {Phaser.Game}  returns a new instance of Phaser.Game
+   */
   startGame: function () {
     this.game.state.start('level1', true, false);
   }

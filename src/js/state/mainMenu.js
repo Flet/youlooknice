@@ -45,6 +45,11 @@ module.exports = {
     this.input.onDown.addOnce(this.startGame, this);
   },
 
+  /**
+   * ## startGame
+   * Starts up the game!
+   * @return {Phaser.Game}  returns a new instance of Phaser.Game
+   */
   startGame: function () {
     this.game.state.start('level1', true, false);
   }
