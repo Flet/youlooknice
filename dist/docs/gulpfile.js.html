@@ -355,35 +355,38 @@ This task could be modified to do some fancy-pantsy css related things if thats 
 </div>
 
   </div>
-  <div class="body"><p>This task will generate the HTML documentation web pages using <code>docker</code>. 
-To reduce the time it takes to build, it will only rebuild the files
+  <div class="body"><p>This task will generate the HTML documentation web pages using <a href="http://jbt.github.io/docker/src/docker.js.html">docker.js</a>. </p>
+
+<p>All documentation is extracted from comments directly in each JS file.</p>
+
+<p>To reduce the time it takes to build, it will only rebuild the files
 that changed each time its run. To force all files to be rebuild, run <code>gulp clean</code>
 before this task.</p>
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-131" id="line-131">131</a>  
-<a class="line-num" href="#line-132" id="line-132">132</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;build-docs&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-133" id="line-133">133</a>    <span class="kd">var</span> <span class="nx">Docker</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;docker&#39;</span><span class="p">);</span>
-<a class="line-num" href="#line-134" id="line-134">134</a>  
-<a class="line-num" href="#line-135" id="line-135">135</a>    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Docker</span><span class="p">({</span>
-<a class="line-num" href="#line-136" id="line-136">136</a>      <span class="nx">inDir</span><span class="o">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
-<a class="line-num" href="#line-137" id="line-137">137</a>      <span class="nx">outDir</span><span class="o">:</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">docsOutput</span><span class="p">,</span>
-<a class="line-num" href="#line-138" id="line-138">138</a>      <span class="nx">colourScheme</span><span class="o">:</span> <span class="s1">&#39;monokai&#39;</span><span class="p">,</span>
-<a class="line-num" href="#line-139" id="line-139">139</a>      <span class="nx">ignoreHidden</span><span class="o">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
-<a class="line-num" href="#line-140" id="line-140">140</a>      <span class="nx">exclude</span><span class="o">:</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">docsExclude</span><span class="p">,</span>
-<a class="line-num" href="#line-141" id="line-141">141</a>      <span class="nx">lineNums</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
-<a class="line-num" href="#line-142" id="line-142">142</a>      <span class="nx">extras</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;fileSearch&#39;</span><span class="p">,</span> <span class="s1">&#39;goToLine&#39;</span><span class="p">],</span>
-<a class="line-num" href="#line-143" id="line-143">143</a>      <span class="nx">onlyUpdated</span><span class="o">:</span> <span class="kc">true</span>
-<a class="line-num" href="#line-144" id="line-144">144</a>    <span class="p">});</span>
-<a class="line-num" href="#line-145" id="line-145">145</a>  
-<a class="line-num" href="#line-146" id="line-146">146</a>    <span class="k">return</span> <span class="nx">d</span><span class="p">.</span><span class="nx">doc</span><span class="p">([</span><span class="s1">&#39;./&#39;</span><span class="p">]);</span>
-<a class="line-num" href="#line-147" id="line-147">147</a>  
-<a class="line-num" href="#line-148" id="line-148">148</a>  <span class="p">});</span>
-<a class="line-num" href="#line-149" id="line-149">149</a>  
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-134" id="line-134">134</a>  
+<a class="line-num" href="#line-135" id="line-135">135</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;build-docs&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-136" id="line-136">136</a>    <span class="kd">var</span> <span class="nx">Docker</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;docker&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-137" id="line-137">137</a>  
+<a class="line-num" href="#line-138" id="line-138">138</a>    <span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Docker</span><span class="p">({</span>
+<a class="line-num" href="#line-139" id="line-139">139</a>      <span class="nx">inDir</span><span class="o">:</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span>
+<a class="line-num" href="#line-140" id="line-140">140</a>      <span class="nx">outDir</span><span class="o">:</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">docsOutput</span><span class="p">,</span>
+<a class="line-num" href="#line-141" id="line-141">141</a>      <span class="nx">colourScheme</span><span class="o">:</span> <span class="s1">&#39;monokai&#39;</span><span class="p">,</span>
+<a class="line-num" href="#line-142" id="line-142">142</a>      <span class="nx">ignoreHidden</span><span class="o">:</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+<a class="line-num" href="#line-143" id="line-143">143</a>      <span class="nx">exclude</span><span class="o">:</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">docsExclude</span><span class="p">,</span>
+<a class="line-num" href="#line-144" id="line-144">144</a>      <span class="nx">lineNums</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+<a class="line-num" href="#line-145" id="line-145">145</a>      <span class="nx">extras</span><span class="o">:</span> <span class="p">[</span><span class="s1">&#39;fileSearch&#39;</span><span class="p">,</span> <span class="s1">&#39;goToLine&#39;</span><span class="p">],</span>
+<a class="line-num" href="#line-146" id="line-146">146</a>      <span class="nx">onlyUpdated</span><span class="o">:</span> <span class="kc">true</span>
+<a class="line-num" href="#line-147" id="line-147">147</a>    <span class="p">});</span>
+<a class="line-num" href="#line-148" id="line-148">148</a>  
+<a class="line-num" href="#line-149" id="line-149">149</a>    <span class="k">return</span> <span class="nx">d</span><span class="p">.</span><span class="nx">doc</span><span class="p">([</span><span class="s1">&#39;./&#39;</span><span class="p">]);</span>
 <a class="line-num" href="#line-150" id="line-150">150</a>  
-<a class="line-num" href="#line-151" id="line-151">151</a>  
-<a class="line-num" href="#line-152" id="line-152">152</a>  </pre></div>
+<a class="line-num" href="#line-151" id="line-151">151</a>  <span class="p">});</span>
+<a class="line-num" href="#line-152" id="line-152">152</a>  
+<a class="line-num" href="#line-153" id="line-153">153</a>  
+<a class="line-num" href="#line-154" id="line-154">154</a>  
+<a class="line-num" href="#line-155" id="line-155">155</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -411,19 +414,19 @@ However, if a file is saved with a syntax error, it will kill the task. Just res
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-166" id="line-166">166</a>  
-<a class="line-num" href="#line-167" id="line-167">167</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="s1">&#39;trigger-reload&#39;</span><span class="p">,</span> <span class="s1">&#39;build-markup-with-livereload&#39;</span><span class="p">,</span> <span class="s1">&#39;static-server&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-168" id="line-168">168</a>  
-<a class="line-num" href="#line-169" id="line-169">169</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">scripts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;lint-js&#39;</span><span class="p">,</span> <span class="s1">&#39;build-js&#39;</span><span class="p">]);</span>
-<a class="line-num" href="#line-170" id="line-170">170</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">markup</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build-markup-with-livereload&#39;</span><span class="p">]);</span>
-<a class="line-num" href="#line-171" id="line-171">171</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">assets</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build-assets&#39;</span><span class="p">]);</span>
-<a class="line-num" href="#line-172" id="line-172">172</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">css</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build-css&#39;</span><span class="p">]);</span>
-<a class="line-num" href="#line-173" id="line-173">173</a>  
-<a class="line-num" href="#line-174" id="line-174">174</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">([</span><span class="nx">paths</span><span class="p">.</span><span class="nx">markup</span><span class="p">,</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">scripts</span><span class="p">,</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">readme</span><span class="p">,</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">gulpfile</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;build-docs&#39;</span><span class="p">]);</span>
-<a class="line-num" href="#line-175" id="line-175">175</a>  <span class="p">});</span>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-169" id="line-169">169</a>  
+<a class="line-num" href="#line-170" id="line-170">170</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;watch&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build&#39;</span><span class="p">,</span> <span class="s1">&#39;trigger-reload&#39;</span><span class="p">,</span> <span class="s1">&#39;build-markup-with-livereload&#39;</span><span class="p">,</span> <span class="s1">&#39;static-server&#39;</span><span class="p">],</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-171" id="line-171">171</a>  
+<a class="line-num" href="#line-172" id="line-172">172</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">scripts</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;lint-js&#39;</span><span class="p">,</span> <span class="s1">&#39;build-js&#39;</span><span class="p">]);</span>
+<a class="line-num" href="#line-173" id="line-173">173</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">markup</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build-markup-with-livereload&#39;</span><span class="p">]);</span>
+<a class="line-num" href="#line-174" id="line-174">174</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">assets</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build-assets&#39;</span><span class="p">]);</span>
+<a class="line-num" href="#line-175" id="line-175">175</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">css</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;build-css&#39;</span><span class="p">]);</span>
 <a class="line-num" href="#line-176" id="line-176">176</a>  
-<a class="line-num" href="#line-177" id="line-177">177</a>  
-<a class="line-num" href="#line-178" id="line-178">178</a>  </pre></div>
+<a class="line-num" href="#line-177" id="line-177">177</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">([</span><span class="nx">paths</span><span class="p">.</span><span class="nx">markup</span><span class="p">,</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">scripts</span><span class="p">,</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">readme</span><span class="p">,</span> <span class="nx">paths</span><span class="p">.</span><span class="nx">gulpfile</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;build-docs&#39;</span><span class="p">]);</span>
+<a class="line-num" href="#line-178" id="line-178">178</a>  <span class="p">});</span>
+<a class="line-num" href="#line-179" id="line-179">179</a>  
+<a class="line-num" href="#line-180" id="line-180">180</a>  
+<a class="line-num" href="#line-181" id="line-181">181</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -445,15 +448,15 @@ by setting the environmental variable "PORT" before running <code>gulp</code>.</
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-186" id="line-186">186</a>  
-<a class="line-num" href="#line-187" id="line-187">187</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;static-server&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
-<a class="line-num" href="#line-188" id="line-188">188</a>    <span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">);</span>
-<a class="line-num" href="#line-189" id="line-189">189</a>    <span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">();</span>
-<a class="line-num" href="#line-190" id="line-190">190</a>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">dist</span><span class="p">)).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">3002</span><span class="p">,</span> <span class="nx">next</span><span class="p">);</span>
-<a class="line-num" href="#line-191" id="line-191">191</a>  <span class="p">});</span>
-<a class="line-num" href="#line-192" id="line-192">192</a>  
-<a class="line-num" href="#line-193" id="line-193">193</a>  
-<a class="line-num" href="#line-194" id="line-194">194</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-189" id="line-189">189</a>  
+<a class="line-num" href="#line-190" id="line-190">190</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;static-server&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+<a class="line-num" href="#line-191" id="line-191">191</a>    <span class="kd">var</span> <span class="nx">connect</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;connect&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-192" id="line-192">192</a>    <span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">connect</span><span class="p">();</span>
+<a class="line-num" href="#line-193" id="line-193">193</a>    <span class="nx">server</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">connect</span><span class="p">.</span><span class="kr">static</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">dist</span><span class="p">)).</span><span class="nx">listen</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span> <span class="o">||</span> <span class="mi">3002</span><span class="p">,</span> <span class="nx">next</span><span class="p">);</span>
+<a class="line-num" href="#line-194" id="line-194">194</a>  <span class="p">});</span>
+<a class="line-num" href="#line-195" id="line-195">195</a>  
+<a class="line-num" href="#line-196" id="line-196">196</a>  
+<a class="line-num" href="#line-197" id="line-197">197</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -472,18 +475,18 @@ and trigger a livereload to happen.This should only be called as a subtask to<co
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-199" id="line-199">199</a>  
-<a class="line-num" href="#line-200" id="line-200">200</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;trigger-reload&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-201" id="line-201">201</a>    <span class="kd">var</span> <span class="nx">livereload</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-livereload&#39;</span><span class="p">);</span>
-<a class="line-num" href="#line-202" id="line-202">202</a>    <span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">livereload</span><span class="p">();</span>
-<a class="line-num" href="#line-203" id="line-203">203</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">dist</span> <span class="o">+</span> <span class="s1">&#39;/**&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
-<a class="line-num" href="#line-204" id="line-204">204</a>      <span class="nx">server</span><span class="p">.</span><span class="nx">changed</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">);</span>
-<a class="line-num" href="#line-205" id="line-205">205</a>    <span class="p">});</span>
-<a class="line-num" href="#line-206" id="line-206">206</a>  <span class="p">});</span>
-<a class="line-num" href="#line-207" id="line-207">207</a>  
-<a class="line-num" href="#line-208" id="line-208">208</a>  
-<a class="line-num" href="#line-209" id="line-209">209</a>  
-<a class="line-num" href="#line-210" id="line-210">210</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-202" id="line-202">202</a>  
+<a class="line-num" href="#line-203" id="line-203">203</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;trigger-reload&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-204" id="line-204">204</a>    <span class="kd">var</span> <span class="nx">livereload</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-livereload&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-205" id="line-205">205</a>    <span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">livereload</span><span class="p">();</span>
+<a class="line-num" href="#line-206" id="line-206">206</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">watch</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">dist</span> <span class="o">+</span> <span class="s1">&#39;/**&#39;</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;change&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">file</span><span class="p">)</span> <span class="p">{</span>
+<a class="line-num" href="#line-207" id="line-207">207</a>      <span class="nx">server</span><span class="p">.</span><span class="nx">changed</span><span class="p">(</span><span class="nx">file</span><span class="p">.</span><span class="nx">path</span><span class="p">);</span>
+<a class="line-num" href="#line-208" id="line-208">208</a>    <span class="p">});</span>
+<a class="line-num" href="#line-209" id="line-209">209</a>  <span class="p">});</span>
+<a class="line-num" href="#line-210" id="line-210">210</a>  
+<a class="line-num" href="#line-211" id="line-211">211</a>  
+<a class="line-num" href="#line-212" id="line-212">212</a>  
+<a class="line-num" href="#line-213" id="line-213">213</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -503,16 +506,16 @@ dependency to the <code>watch</code> task.</p>
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-216" id="line-216">216</a>  
-<a class="line-num" href="#line-217" id="line-217">217</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;build-markup-with-livereload&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-218" id="line-218">218</a>    <span class="kd">var</span> <span class="nx">embedlr</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;gulp-embedlr&quot;</span><span class="p">);</span>
-<a class="line-num" href="#line-219" id="line-219">219</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">markup</span><span class="p">)</span>
-<a class="line-num" href="#line-220" id="line-220">220</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">embedlr</span><span class="p">())</span>
-<a class="line-num" href="#line-221" id="line-221">221</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">dist</span><span class="p">));</span>
-<a class="line-num" href="#line-222" id="line-222">222</a>  <span class="p">});</span>
-<a class="line-num" href="#line-223" id="line-223">223</a>  
-<a class="line-num" href="#line-224" id="line-224">224</a>  
-<a class="line-num" href="#line-225" id="line-225">225</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-219" id="line-219">219</a>  
+<a class="line-num" href="#line-220" id="line-220">220</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;build-markup-with-livereload&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-221" id="line-221">221</a>    <span class="kd">var</span> <span class="nx">embedlr</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;gulp-embedlr&quot;</span><span class="p">);</span>
+<a class="line-num" href="#line-222" id="line-222">222</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">markup</span><span class="p">)</span>
+<a class="line-num" href="#line-223" id="line-223">223</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">embedlr</span><span class="p">())</span>
+<a class="line-num" href="#line-224" id="line-224">224</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">dist</span><span class="p">));</span>
+<a class="line-num" href="#line-225" id="line-225">225</a>  <span class="p">});</span>
+<a class="line-num" href="#line-226" id="line-226">226</a>  
+<a class="line-num" href="#line-227" id="line-227">227</a>  
+<a class="line-num" href="#line-228" id="line-228">228</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -532,12 +535,12 @@ to accomplish this. By default any tasks with a dash in the name is considered a
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-231" id="line-231">231</a>  
-<a class="line-num" href="#line-232" id="line-232">232</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-task-listing&#39;</span><span class="p">));</span>
-<a class="line-num" href="#line-233" id="line-233">233</a>  
-<a class="line-num" href="#line-234" id="line-234">234</a>  
-<a class="line-num" href="#line-235" id="line-235">235</a>  
-<a class="line-num" href="#line-236" id="line-236">236</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-234" id="line-234">234</a>  
+<a class="line-num" href="#line-235" id="line-235">235</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-task-listing&#39;</span><span class="p">));</span>
+<a class="line-num" href="#line-236" id="line-236">236</a>  
+<a class="line-num" href="#line-237" id="line-237">237</a>  
+<a class="line-num" href="#line-238" id="line-238">238</a>  
+<a class="line-num" href="#line-239" id="line-239">239</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -555,14 +558,14 @@ to accomplish this. By default any tasks with a dash in the name is considered a
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-240" id="line-240">240</a>  
-<a class="line-num" href="#line-241" id="line-241">241</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;clean&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
-<a class="line-num" href="#line-242" id="line-242">242</a>    <span class="kd">var</span> <span class="nx">rimraf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;rimraf&#39;</span><span class="p">);</span>
-<a class="line-num" href="#line-243" id="line-243">243</a>    <span class="k">return</span> <span class="nx">rimraf</span><span class="p">(</span><span class="s1">&#39;./dist&#39;</span><span class="p">,</span> <span class="nx">cb</span><span class="p">);</span>
-<a class="line-num" href="#line-244" id="line-244">244</a>  <span class="p">});</span>
-<a class="line-num" href="#line-245" id="line-245">245</a>  
-<a class="line-num" href="#line-246" id="line-246">246</a>  
-<a class="line-num" href="#line-247" id="line-247">247</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-243" id="line-243">243</a>  
+<a class="line-num" href="#line-244" id="line-244">244</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;clean&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">cb</span><span class="p">)</span> <span class="p">{</span>
+<a class="line-num" href="#line-245" id="line-245">245</a>    <span class="kd">var</span> <span class="nx">rimraf</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;rimraf&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-246" id="line-246">246</a>    <span class="k">return</span> <span class="nx">rimraf</span><span class="p">(</span><span class="s1">&#39;./dist&#39;</span><span class="p">,</span> <span class="nx">cb</span><span class="p">);</span>
+<a class="line-num" href="#line-247" id="line-247">247</a>  <span class="p">});</span>
+<a class="line-num" href="#line-248" id="line-248">248</a>  
+<a class="line-num" href="#line-249" id="line-249">249</a>  
+<a class="line-num" href="#line-250" id="line-250">250</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -582,17 +585,17 @@ be run manually (it is not part of the <code>build</code> task).</p>
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-252" id="line-252">252</a>  
-<a class="line-num" href="#line-253" id="line-253">253</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;beautify&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-254" id="line-254">254</a>    <span class="kd">var</span> <span class="nx">beautify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-beautify&#39;</span><span class="p">);</span>
-<a class="line-num" href="#line-255" id="line-255">255</a>  
-<a class="line-num" href="#line-256" id="line-256">256</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">scripts</span><span class="p">)</span>
-<a class="line-num" href="#line-257" id="line-257">257</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">beautify</span><span class="p">())</span>
-<a class="line-num" href="#line-258" id="line-258">258</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">scriptsRoot</span><span class="p">));</span>
-<a class="line-num" href="#line-259" id="line-259">259</a>  <span class="p">});</span>
-<a class="line-num" href="#line-260" id="line-260">260</a>  
-<a class="line-num" href="#line-261" id="line-261">261</a>  
-<a class="line-num" href="#line-262" id="line-262">262</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-255" id="line-255">255</a>  
+<a class="line-num" href="#line-256" id="line-256">256</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;beautify&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-257" id="line-257">257</a>    <span class="kd">var</span> <span class="nx">beautify</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;gulp-beautify&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-258" id="line-258">258</a>  
+<a class="line-num" href="#line-259" id="line-259">259</a>    <span class="nx">gulp</span><span class="p">.</span><span class="nx">src</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">scripts</span><span class="p">)</span>
+<a class="line-num" href="#line-260" id="line-260">260</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">beautify</span><span class="p">())</span>
+<a class="line-num" href="#line-261" id="line-261">261</a>      <span class="p">.</span><span class="nx">pipe</span><span class="p">(</span><span class="nx">gulp</span><span class="p">.</span><span class="nx">dest</span><span class="p">(</span><span class="nx">paths</span><span class="p">.</span><span class="nx">scriptsRoot</span><span class="p">));</span>
+<a class="line-num" href="#line-262" id="line-262">262</a>  <span class="p">});</span>
+<a class="line-num" href="#line-263" id="line-263">263</a>  
+<a class="line-num" href="#line-264" id="line-264">264</a>  
+<a class="line-num" href="#line-265" id="line-265">265</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -610,9 +613,9 @@ be run manually (it is not part of the <code>build</code> task).</p>
   </div>
 </div>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-266" id="line-266">266</a>  
-<a class="line-num" href="#line-267" id="line-267">267</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;watch&#39;</span><span class="p">]);</span>
-<a class="line-num" href="#line-268" id="line-268">268</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-269" id="line-269">269</a>  
+<a class="line-num" href="#line-270" id="line-270">270</a>  <span class="nx">gulp</span><span class="p">.</span><span class="nx">task</span><span class="p">(</span><span class="s1">&#39;default&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;watch&#39;</span><span class="p">]);</span>
+<a class="line-num" href="#line-271" id="line-271">271</a>  </pre></div>
         </td>
       </tr>
   </tbody>
