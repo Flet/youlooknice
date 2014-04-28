@@ -122,7 +122,10 @@ gulp.task('build-css', function () {
 /*
 ### build-docs
 
-This task will generate the HTML documentation web pages using `docker`. 
+This task will generate the HTML documentation web pages using [docker.js](http://jbt.github.io/docker/src/docker.js.html). 
+
+All documentation is extracted from comments directly in each JS file.
+
 To reduce the time it takes to build, it will only rebuild the files
 that changed each time its run. To force all files to be rebuild, run `gulp clean`
 before this task.
