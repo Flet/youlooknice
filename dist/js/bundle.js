@@ -21,12 +21,10 @@ var boot = require('./state/boot.js');
 var preloader = require('./state/preloader');
 var mainMenu = require('./state/mainMenu');
 var level1 = require('./state/level1');
-var splash = require('./state/splash');
 
 
 //Add all of our states to the Phaser game instance.
 game.state.add('boot', boot, false);
-game.state.add('splash', splash, false);
 game.state.add('preloader', preloader, false);
 game.state.add('mainMenu', mainMenu, false);
 game.state.add('level1', level1, false);
@@ -34,10 +32,8 @@ game.state.add('level1', level1, false);
 // Kick off the game by starting up the `boot` state
 game.state.start('boot');
 // See [boot.js](state/boot.js.html) for the next step
-},{"./state/boot.js":2,"./state/level1":3,"./state/mainMenu":4,"./state/preloader":5,"./state/splash":6}],2:[function(require,module,exports){
+},{"./state/boot.js":2,"./state/level1":3,"./state/mainMenu":4,"./state/preloader":5}],2:[function(require,module,exports){
 var Phaser = (window.Phaser);
-
-module.exports = Boot;
 
 function Boot(game) {
   console.debug("creating Boot state!", game);
@@ -78,8 +74,10 @@ Boot.prototype.create = function () {
 
   // By this point the preloader assets have loaded to the cache, we've set the game settings
   // So now let's start the real preloader going
-  game.state.start('splash');
+  game.state.start('preloader');
 };
+
+module.exports = Boot;
 },{}],3:[function(require,module,exports){
 /* globals module, require, localStorage*/
 
@@ -228,72 +226,64 @@ MainMenu.prototype.startGame = function () {
 },{}],5:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
-module.exports = {
-
-    preload: function () {
-
-        this.loadingBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loadingBar');
-        this.loadingBar.anchor.x = 0.5;
-        this.loadingBar.anchor.y = 0.5;
-        this.load.setPreloadSprite(this.loadingBar);
-
-        this.game.load.image('menu_background', 'assets/menu_background.png');
-        this.game.load.spritesheet('game_sprites', 'assets/game_sprites.png', 32, 32);
-
-    },
-
-    create: function () {
-        var tween = this.add.tween(this.loadingBar).to({
-            alpha: 0
-        }, 1000, Phaser.Easing.Linear.None, true);
-        tween.onComplete.add(this.startMainMenu, this);
-    },
-
-    startMainMenu: function () {
-        this.game.state.start('mainMenu', true, false);
-    }
-
-};
-},{}],6:[function(require,module,exports){
-module.exports = Splash;
-
-function Splash() {
+function Preloader() {
   this.logo = null;
+  this.splashgroup = null;
 }
 
-Splash.prototype.create = function () {
-  var midx = this.game.world.centerX,
-    midy = this.game.world.centerY;
+Preloader.prototype.preload = function () {
+  this.showLoadingBarAndLogo();
 
-  var logo = this.logo = this.add.sprite(midx, midy + 20, 'phaserLogo');
+  // convenience
+  var game = this.game;
+
+  game.load.image('menu_background', 'assets/menu_background.png');
+  game.load.spritesheet('game_sprites', 'assets/game_sprites.png', 32, 32);
+
+};
+
+Preloader.prototype.create = function () {
+
+  //on create, fade everything out
+  var tween = this.add.tween(this.splashgroup).to({
+    alpha: 0
+  }, 1000, Phaser.Easing.Linear.None, true);
+  tween.onComplete.add(this.startMainMenu, this);
+};
+
+Preloader.prototype.startMainMenu = function () {
+  this.game.state.start('mainMenu', true, false);
+};
+
+Preloader.prototype.showLoadingBarAndLogo = function () {
+
+  var midx = this.game.world.centerX;
+  var midy = this.game.world.centerY;
+
+  this.splashgroup = this.game.add.group();
+
+  // build loading bar and hook it to phaser
+  var loadingBar = this.add.sprite(midx, midy * 1.8, 'loadingBar');
+  loadingBar.anchor.x = 0.5;
+  loadingBar.anchor.y = 0.5;
+  this.load.setPreloadSprite(loadingBar);
+  this.splashgroup.add(loadingBar);
+
+  // Create a sprite for the logo and fade it in while we load up assets
+  var logo = this.add.sprite(midx, midy + 20, 'phaserLogo');
   logo.anchor.setTo(0.5, 0.5);
   logo.alpha = 0;
-
+  this.splashgroup.add(logo);
+  //tween the phaser logo
   var fadeIn = this.game.add.tween(logo);
-  var hold = this.game.add.tween(logo);
-  var fadeOut = this.game.add.tween(logo);
-
-  // fade in and slightly move up, hold for a half sec, then fade out
+  // fade in
   fadeIn.to({
     alpha: 1,
     y: midy
-  }, 1000, null, false);
-
-  hold.to({
-    alpha: 1
-  }, 500, null, false);
-
-  fadeOut.to({
-    alpha: 0
-  }, 500, null, false);
-
-  fadeIn.chain(hold);
-  hold.chain(fadeOut);
-  fadeIn.start();
-
-  fadeOut.onComplete.add(function () {
-    this.game.state.start('preloader');
-  }, this);
+  }, 1000).start();
 
 };
+
+
+module.exports = Preloader;
 },{}]},{},[1])

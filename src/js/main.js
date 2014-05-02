@@ -20,12 +20,10 @@ var boot = require('./state/boot.js');
 var preloader = require('./state/preloader');
 var mainMenu = require('./state/mainMenu');
 var level1 = require('./state/level1');
-var splash = require('./state/splash');
 
 
 //Add all of our states to the Phaser game instance.
 game.state.add('boot', boot, false);
-game.state.add('splash', splash, false);
 game.state.add('preloader', preloader, false);
 game.state.add('mainMenu', mainMenu, false);
 game.state.add('level1', level1, false);
