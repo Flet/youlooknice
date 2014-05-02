@@ -39,6 +39,7 @@ Preloader.prototype.showLoadingBarAndLogo = function () {
   this.splashgroup = this.game.add.group();
 
   // build loading bar and hook it to phaser
+  // Note that the loading bar was already loaded in the previous "boot" state
   var loadingBar = this.add.sprite(midx, midy * 1.8, 'loadingBar');
   loadingBar.anchor.x = 0.5;
   loadingBar.anchor.y = 0.5;
