@@ -27,7 +27,7 @@ Boot.prototype.create = function () {
   if (game.device.desktop) {
     game.stage.scale.pageAlignHorizontally = true;
   } else {
-    // Same goes for mobile settings.
+    // Any mobile-specific settiings go here.
     // In this case we're saying "scale the game, no lower than 480x260 and no higher than 1024x768"
     game.stage.scaleMode = Phaser.StageScaleMode.SHOW_ALL;
     game.stage.scale.minWidth = 480;
