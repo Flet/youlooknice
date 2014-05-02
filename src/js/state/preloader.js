@@ -11,6 +11,8 @@ Preloader.prototype.preload = function () {
   // convenience
   var game = this.game;
 
+
+  // load ALL assets
   game.load.image('menu_background', 'assets/menu_background.png');
   game.load.spritesheet('game_sprites', 'assets/game_sprites.png', 32, 32);
 
@@ -22,11 +24,10 @@ Preloader.prototype.create = function () {
   var tween = this.add.tween(this.splashgroup).to({
     alpha: 0
   }, 1000, Phaser.Easing.Linear.None, true);
-  tween.onComplete.add(this.startMainMenu, this);
-};
 
-Preloader.prototype.startMainMenu = function () {
-  this.game.state.start('mainMenu', true, false);
+  tween.onComplete.add(function () {
+    this.game.state.start('mainMenu', true, false);
+  }, this);
 };
 
 Preloader.prototype.showLoadingBarAndLogo = function () {
@@ -34,6 +35,7 @@ Preloader.prototype.showLoadingBarAndLogo = function () {
   var midx = this.game.world.centerX;
   var midy = this.game.world.centerY;
 
+  // This group is used to conveniently fade out all items in the create function.
   this.splashgroup = this.game.add.group();
 
   // build loading bar and hook it to phaser
