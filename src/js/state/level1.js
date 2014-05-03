@@ -2,27 +2,29 @@
 
 var Phaser = require('phaser');
 
+var ARCADE = Phaser.Physics.ARCADE;
+
+var Player = require('../entity/player');
+
 
 module.exports = {
   create: function () {
     var game = this.game;
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.startSystem(ARCADE);
 
-    this.background = this.add.sprite(0, 0, 'menu_background');
+    this.background = this.add.tileSprite(0, 0, 480, 320, 'menu_background');
+    this.background.autoScroll(-100, 0);
 
-    this.player = this.add.sprite(50, 50, 'game_sprites');
-
-    game.physics.enable(this.player, Phaser.Physics.ARCADE);
-    this.player.body.gravity.y = 1000;
+    this.player = new Player(game);
 
     this.blocks = game.add.group();
     this.blocks.enableBody = true;
-    this.blocks.physicsBodyType = Phaser.Physics.ARCADE;
+    this.blocks.physicsBodyType = ARCADE;
 
     this.blocks.createMultiple(10, 'game_sprites', 1);
 
 
-    this.input.onDown.add(this.jump, this);
+    this.input.onDown.add(this.player.jump, this);
 
     this.blockTimer = game.time.events.loop(500, this.addBlock, this);
     this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.addScore, this);
@@ -43,10 +45,6 @@ module.exports = {
     game.physics.arcade.overlap(this.player, this.blocks, this.restartGame, null, this);
 
     this.labelScore.setText("" + this.score);
-  },
-
-  jump: function () {
-    this.player.body.velocity.y = -350;
   },
 
   addBlock: function () {

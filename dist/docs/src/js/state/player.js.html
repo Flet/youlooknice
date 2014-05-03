@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>player.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../../doc-style.css" />
+  <script src="../../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../../", thisFile = "home/danny/youlooknice/src/js/state/playerjs", defaultSidebar = true;
+  </script>
+  <script src="../../../doc-script.js"></script>
+  <script src="../../../fileSearch.js"></script>
+  <script src="../../../goToLine.js"></script>
+  <link rel="stylesheet" href="../../../fileSearch.css" />
+  <link rel="stylesheet" href="../../../goToLine.css" />
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>player.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-1" id="line-1">1</a>  <span class="kd">var</span> <span class="nx">Phaser</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;phaser&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-2" id="line-2">2</a>  
+<a class="line-num" href="#line-3" id="line-3">3</a>  
+<a class="line-num" href="#line-4" id="line-4">4</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<p>Here is a custom game object</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-4" id="line-4">4</a>  
+<a class="line-num" href="#line-5" id="line-5">5</a>  <span class="kd">function</span> <span class="nx">Player</span><span class="p">(</span><span class="nx">game</span><span class="p">)</span> <span class="p">{</span>
+<a class="line-num" href="#line-6" id="line-6">6</a>    <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;creating a Player!&quot;</span><span class="p">,</span> <span class="nx">game</span><span class="p">);</span>
+<a class="line-num" href="#line-7" id="line-7">7</a>  
+<a class="line-num" href="#line-8" id="line-8">8</a>    <span class="nx">Phaser</span><span class="p">.</span><span class="nx">Sprite</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">game</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="s1">&#39;game_sprites&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-9" id="line-9">9</a>  
+<a class="line-num" href="#line-10" id="line-10">10</a>    <span class="nx">game</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">existing</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+<a class="line-num" href="#line-11" id="line-11">11</a>  
+<a class="line-num" href="#line-12" id="line-12">12</a>    <span class="nx">game</span><span class="p">.</span><span class="nx">physics</span><span class="p">.</span><span class="nx">enable</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">Phaser</span><span class="p">.</span><span class="nx">Physics</span><span class="p">.</span><span class="nx">ARCADE</span><span class="p">);</span>
+<a class="line-num" href="#line-13" id="line-13">13</a>    <span class="k">this</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">gravity</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+<a class="line-num" href="#line-14" id="line-14">14</a>  
+<a class="line-num" href="#line-15" id="line-15">15</a>  <span class="p">}</span>
+<a class="line-num" href="#line-16" id="line-16">16</a>  
+<a class="line-num" href="#line-17" id="line-17">17</a>  <span class="nx">Player</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="nx">Phaser</span><span class="p">.</span><span class="nx">Sprite</span><span class="p">.</span><span class="nx">prototype</span><span class="p">);</span>
+<a class="line-num" href="#line-18" id="line-18">18</a>  <span class="nx">Player</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">constructor</span> <span class="o">=</span> <span class="nx">Player</span><span class="p">;</span>
+<a class="line-num" href="#line-19" id="line-19">19</a>  
+<a class="line-num" href="#line-20" id="line-20">20</a>  
+<a class="line-num" href="#line-21" id="line-21">21</a>  
+<a class="line-num" href="#line-22" id="line-22">22</a>  <span class="nx">Player</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">jump</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-23" id="line-23">23</a>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;JUMP!&quot;</span><span class="p">);</span>
+<a class="line-num" href="#line-24" id="line-24">24</a>    <span class="k">this</span><span class="p">.</span><span class="nx">player</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">velocity</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="o">-</span><span class="mi">350</span><span class="p">;</span>
+<a class="line-num" href="#line-25" id="line-25">25</a>  <span class="p">};</span>
+<a class="line-num" href="#line-26" id="line-26">26</a>  
+<a class="line-num" href="#line-27" id="line-27">27</a>  
+<a class="line-num" href="#line-28" id="line-28">28</a>  
+<a class="line-num" href="#line-29" id="line-29">29</a>  <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Player</span><span class="p">;</span>
+<a class="line-num" href="#line-30" id="line-30">30</a>  </pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

@@ -1,4 +1,32 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Phaser = (window.Phaser);
+
+//  Here is a custom game object
+function Player(game) {
+  console.debug("creating a Player!", game);
+
+  Phaser.Sprite.call(this, game, 50, 50, 'game_sprites');
+
+  game.add.existing(this);
+
+  game.physics.enable(this, Phaser.Physics.ARCADE);
+  this.body.gravity.y = 1000;
+
+}
+
+Player.prototype = Object.create(Phaser.Sprite.prototype);
+Player.prototype.constructor = Player;
+
+
+Player.prototype.jump = function () {
+  console.log("JUMP!");
+  this.player.body.velocity.y = -350;
+};
+
+
+
+module.exports = Player;
+},{}],2:[function(require,module,exports){
 /**
  * This is the main entry point of the game. We `require` Phaser as
  * well as all of our states and add those states to the `game`.
@@ -32,7 +60,7 @@ game.state.add('level1', level1, false);
 // Kick off the game by starting up the `boot` state
 game.state.start('boot');
 // See [boot.js](state/boot.js.html) for the next step
-},{"./state/boot.js":2,"./state/level1":3,"./state/mainMenu":4,"./state/preloader":5}],2:[function(require,module,exports){
+},{"./state/boot.js":3,"./state/level1":4,"./state/mainMenu":5,"./state/preloader":6}],3:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 function Boot(game) {
@@ -78,32 +106,34 @@ Boot.prototype.create = function () {
 };
 
 module.exports = Boot;
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 /* globals module, require, localStorage*/
 
 var Phaser = (window.Phaser);
+
+var ARCADE = Phaser.Physics.ARCADE;
+
+var Player = require('../entity/player');
 
 
 module.exports = {
   create: function () {
     var game = this.game;
-    game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.physics.startSystem(ARCADE);
 
-    this.background = this.add.sprite(0, 0, 'menu_background');
+    this.background = this.add.tileSprite(0, 0, 480, 320, 'menu_background');
+    this.background.autoScroll(-100, 0);
 
-    this.player = this.add.sprite(50, 50, 'game_sprites');
-
-    game.physics.enable(this.player, Phaser.Physics.ARCADE);
-    this.player.body.gravity.y = 1000;
+    this.player = new Player(game);
 
     this.blocks = game.add.group();
     this.blocks.enableBody = true;
-    this.blocks.physicsBodyType = Phaser.Physics.ARCADE;
+    this.blocks.physicsBodyType = ARCADE;
 
     this.blocks.createMultiple(10, 'game_sprites', 1);
 
 
-    this.input.onDown.add(this.jump, this);
+    this.input.onDown.add(this.player.jump, this);
 
     this.blockTimer = game.time.events.loop(500, this.addBlock, this);
     this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.addScore, this);
@@ -124,10 +154,6 @@ module.exports = {
     game.physics.arcade.overlap(this.player, this.blocks, this.restartGame, null, this);
 
     this.labelScore.setText("" + this.score);
-  },
-
-  jump: function () {
-    this.player.body.velocity.y = -350;
   },
 
   addBlock: function () {
@@ -161,7 +187,7 @@ module.exports = {
   }
 
 };
-},{}],4:[function(require,module,exports){
+},{"../entity/player":1}],5:[function(require,module,exports){
 /*globals module, require, localStorage*/
 
 var Phaser = (window.Phaser);
@@ -223,7 +249,7 @@ MainMenu.prototype.addPointerEvents = function () {
 MainMenu.prototype.startGame = function () {
   this.game.state.start('level1', true, false);
 };
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 function Preloader() {
@@ -265,6 +291,7 @@ Preloader.prototype.showLoadingBarAndLogo = function () {
   this.splashgroup = this.game.add.group();
 
   // build loading bar and hook it to phaser
+  // Note that the loading bar was already loaded in the previous "boot" state
   var loadingBar = this.add.sprite(midx, midy * 1.8, 'loadingBar');
   loadingBar.anchor.x = 0.5;
   loadingBar.anchor.y = 0.5;
@@ -288,4 +315,4 @@ Preloader.prototype.showLoadingBarAndLogo = function () {
 
 
 module.exports = Preloader;
-},{}]},{},[1])
+},{}]},{},[2])
