@@ -1,1 +1,1 @@
-var tree={"files":["README.md","gulpfile.js"],"dirs":{"src":{"dirs":{"css":{"files":["main.css"]},"js":{"files":["main.js"],"dirs":{"state":{"files":["boot.js","level1.js","mainMenu.js","preloader.js","player.js"]},"entity":{"files":["player.js"]}}}},"files":["index.html"]}}};
+var tree={"files":["README.md","gulpfile.js"],"dirs":{"src":{"dirs":{"css":{"files":["main.css"]},"js":{"dirs":{"entity":{"files":["player.js","scoreText.js"]},"state":{"files":["boot.js","level1.js","mainMenu.js","preloader.js"]}},"files":["main.js"]}},"files":["index.html"]}}};

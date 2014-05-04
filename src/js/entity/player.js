@@ -18,10 +18,8 @@ Player.prototype.constructor = Player;
 
 
 Player.prototype.jump = function () {
-  console.log("JUMP!");
+  console.log("FLAP!");
   this.player.body.velocity.y = -350;
 };
-
-
 
 module.exports = Player;

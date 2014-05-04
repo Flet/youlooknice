@@ -1,10 +1,11 @@
-/* globals module, require, localStorage*/
+/* globals module, require*/
 
 var Phaser = require('phaser');
 
 var ARCADE = Phaser.Physics.ARCADE;
 
 var Player = require('../entity/player');
+var ScoreText = require('../entity/scoreText');
 
 
 module.exports = {
@@ -23,18 +24,14 @@ module.exports = {
 
     this.blocks.createMultiple(10, 'game_sprites', 1);
 
+    this.labelScore = new ScoreText(game);
 
     this.input.onDown.add(this.player.jump, this);
 
     this.blockTimer = game.time.events.loop(500, this.addBlock, this);
-    this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.addScore, this);
+    this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.labelScore.addScore, this.labelScore);
 
-    this.score = 0;
-    var style = {
-      font: '30px Arial',
-      fill: '#fff'
-    };
-    this.labelScore = game.add.text(20, 20, "0", style);
+
   },
 
   update: function () {
@@ -44,7 +41,6 @@ module.exports = {
     }
     game.physics.arcade.overlap(this.player, this.blocks, this.restartGame, null, this);
 
-    this.labelScore.setText("" + this.score);
   },
 
   addBlock: function () {
@@ -58,19 +54,10 @@ module.exports = {
     block.outOfBoundsKill = true;
   },
 
-  addScore: function () {
-    this.score += 1;
-    this.labelScore.content = this.score;
-  },
-
   restartGame: function () {
     var game = this.game;
-    var previousHighscore = localStorage.getItem("highscore");
-    if (!previousHighscore || previousHighscore < this.score) {
-      localStorage.setItem("highscore", this.score);
-    }
 
-    localStorage.setItem("lastscore", this.score);
+    this.labelScore.resetScore();
 
     game.time.events.remove(this.blockTimer);
     game.time.events.remove(this.scoreTimer);

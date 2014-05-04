@@ -24,6 +24,11 @@ cd foo
 npm install
 ```
 
+Next, install the global `gulp` command:
+```
+npm install -g gulp
+```
+
 Once installed, run `gulp` to start the static server
 ```
 gulp watch

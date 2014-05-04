@@ -19,14 +19,58 @@ Player.prototype.constructor = Player;
 
 
 Player.prototype.jump = function () {
-  console.log("JUMP!");
+  console.log("FLAP!");
   this.player.body.velocity.y = -350;
 };
 
-
-
 module.exports = Player;
 },{}],2:[function(require,module,exports){
+var Phaser = (window.Phaser);
+
+//  Here is a custom game object
+function ScoreText(game) {
+  console.debug("creating a ScoreText!", game);
+
+  var style = {
+    font: '30px Arial',
+    fill: '#fff'
+  };
+  Phaser.Text.call(this, game, 20, 20, "0", style);
+
+  game.add.existing(this);
+
+
+  this.score = 0;
+
+}
+
+ScoreText.prototype = Object.create(Phaser.Text.prototype);
+ScoreText.prototype.constructor = ScoreText;
+
+
+ScoreText.prototype.update = function () {
+  this.setText("" + this.score);
+  this.content = this.score;
+};
+
+
+ScoreText.prototype.addScore = function () {
+  this.score += 1;
+};
+
+
+ScoreText.prototype.resetScore = function () {
+  var previousHighscore = localStorage.getItem("highscore");
+  if (!previousHighscore || previousHighscore < this.score) {
+    localStorage.setItem("highscore", this.score);
+  }
+
+  localStorage.setItem("lastscore", this.score);
+
+};
+
+module.exports = ScoreText;
+},{}],3:[function(require,module,exports){
 /**
  * This is the main entry point of the game. We `require` Phaser as
  * well as all of our states and add those states to the `game`.
@@ -60,7 +104,7 @@ game.state.add('level1', level1, false);
 // Kick off the game by starting up the `boot` state
 game.state.start('boot');
 // See [boot.js](state/boot.js.html) for the next step
-},{"./state/boot.js":3,"./state/level1":4,"./state/mainMenu":5,"./state/preloader":6}],3:[function(require,module,exports){
+},{"./state/boot.js":4,"./state/level1":5,"./state/mainMenu":6,"./state/preloader":7}],4:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 function Boot(game) {
@@ -106,14 +150,15 @@ Boot.prototype.create = function () {
 };
 
 module.exports = Boot;
-},{}],4:[function(require,module,exports){
-/* globals module, require, localStorage*/
+},{}],5:[function(require,module,exports){
+/* globals module, require*/
 
 var Phaser = (window.Phaser);
 
 var ARCADE = Phaser.Physics.ARCADE;
 
 var Player = require('../entity/player');
+var ScoreText = require('../entity/scoreText');
 
 
 module.exports = {
@@ -132,18 +177,14 @@ module.exports = {
 
     this.blocks.createMultiple(10, 'game_sprites', 1);
 
+    this.labelScore = new ScoreText(game);
 
     this.input.onDown.add(this.player.jump, this);
 
     this.blockTimer = game.time.events.loop(500, this.addBlock, this);
-    this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.addScore, this);
+    this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.labelScore.addScore, this.labelScore);
 
-    this.score = 0;
-    var style = {
-      font: '30px Arial',
-      fill: '#fff'
-    };
-    this.labelScore = game.add.text(20, 20, "0", style);
+
   },
 
   update: function () {
@@ -153,7 +194,6 @@ module.exports = {
     }
     game.physics.arcade.overlap(this.player, this.blocks, this.restartGame, null, this);
 
-    this.labelScore.setText("" + this.score);
   },
 
   addBlock: function () {
@@ -167,19 +207,10 @@ module.exports = {
     block.outOfBoundsKill = true;
   },
 
-  addScore: function () {
-    this.score += 1;
-    this.labelScore.content = this.score;
-  },
-
   restartGame: function () {
     var game = this.game;
-    var previousHighscore = localStorage.getItem("highscore");
-    if (!previousHighscore || previousHighscore < this.score) {
-      localStorage.setItem("highscore", this.score);
-    }
 
-    localStorage.setItem("lastscore", this.score);
+    this.labelScore.resetScore();
 
     game.time.events.remove(this.blockTimer);
     game.time.events.remove(this.scoreTimer);
@@ -187,7 +218,7 @@ module.exports = {
   }
 
 };
-},{"../entity/player":1}],5:[function(require,module,exports){
+},{"../entity/player":1,"../entity/scoreText":2}],6:[function(require,module,exports){
 /*globals module, require, localStorage*/
 
 var Phaser = (window.Phaser);
@@ -249,7 +280,7 @@ MainMenu.prototype.addPointerEvents = function () {
 MainMenu.prototype.startGame = function () {
   this.game.state.start('level1', true, false);
 };
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 function Preloader() {
@@ -315,4 +346,4 @@ Preloader.prototype.showLoadingBarAndLogo = function () {
 
 
 module.exports = Preloader;
-},{}]},{},[2])
+},{}]},{},[3])
