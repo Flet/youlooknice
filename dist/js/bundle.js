@@ -2,6 +2,64 @@
 var Phaser = (window.Phaser);
 
 //  Here is a custom game object
+function Block(game) {
+  console.debug("creating a Block!", game);
+
+  Phaser.Sprite.call(this, game, 50, 50, 'game_sprites', 1);
+
+  game.add.existing(this);
+  game.physics.enable(this, Phaser.Physics.ARCADE);
+
+}
+
+Block.prototype = Object.create(Phaser.Sprite.prototype);
+Block.prototype.constructor = Block;
+
+
+Block.prototype.revive = function () {
+  console.debug("Reviving block");
+
+  var x = 480;
+  var y = ((Math.floor(Math.random() * 5) + 1) * 60) - 30;
+
+  this.reset(x, y);
+  this.body.velocity.x = -200;
+  this.checkWorldBounds = true;
+  this.outOfBoundsKill = true;
+};
+
+module.exports = Block;
+},{}],2:[function(require,module,exports){
+var Phaser = (window.Phaser);
+var Block = require('./block.js');
+
+//  Here is a custom game object
+function BlockGroup(game) {
+  console.debug("creating a BlockGroup!", game);
+
+  Phaser.Group.call(this, game, null, 'blockgroup', false, true, Phaser.Physics.ARCADE);
+
+  game.add.existing(this);
+
+  this.classType = Block;
+  this.createMultiple(10);
+
+}
+
+BlockGroup.prototype = Object.create(Phaser.Group.prototype);
+BlockGroup.prototype.constructor = BlockGroup;
+
+
+BlockGroup.prototype.addBlock = function () {
+  var block = this.getFirstDead();
+  block.revive();
+};
+
+module.exports = BlockGroup;
+},{"./block.js":1}],3:[function(require,module,exports){
+var Phaser = (window.Phaser);
+
+//  Here is a custom game object
 function Player(game) {
   console.debug("creating a Player!", game);
 
@@ -24,7 +82,7 @@ Player.prototype.jump = function () {
 };
 
 module.exports = Player;
-},{}],2:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 //  Here is a custom game object
@@ -70,7 +128,7 @@ ScoreText.prototype.resetScore = function () {
 };
 
 module.exports = ScoreText;
-},{}],3:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /**
  * This is the main entry point of the game. We `require` Phaser as
  * well as all of our states and add those states to the `game`.
@@ -104,7 +162,7 @@ game.state.add('level1', level1, false);
 // Kick off the game by starting up the `boot` state
 game.state.start('boot');
 // See [boot.js](state/boot.js.html) for the next step
-},{"./state/boot.js":4,"./state/level1":5,"./state/mainMenu":6,"./state/preloader":7}],4:[function(require,module,exports){
+},{"./state/boot.js":6,"./state/level1":7,"./state/mainMenu":8,"./state/preloader":9}],6:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 function Boot(game) {
@@ -150,7 +208,7 @@ Boot.prototype.create = function () {
 };
 
 module.exports = Boot;
-},{}],5:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 /* globals module, require*/
 
 var Phaser = (window.Phaser);
@@ -159,7 +217,7 @@ var ARCADE = Phaser.Physics.ARCADE;
 
 var Player = require('../entity/player');
 var ScoreText = require('../entity/scoreText');
-
+var BlockGroup = require('../entity/blockGroup');
 
 module.exports = {
   create: function () {
@@ -170,20 +228,13 @@ module.exports = {
     this.background.autoScroll(-100, 0);
 
     this.player = new Player(game);
-
-    this.blocks = game.add.group();
-    this.blocks.enableBody = true;
-    this.blocks.physicsBodyType = ARCADE;
-
-    this.blocks.createMultiple(10, 'game_sprites', 1);
-
+    this.blockz = new BlockGroup(game);
     this.labelScore = new ScoreText(game);
 
     this.input.onDown.add(this.player.jump, this);
 
-    this.blockTimer = game.time.events.loop(500, this.addBlock, this);
+    this.blockTimer = game.time.events.loop(500, this.blockz.addBlock, this.blockz);
     this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.labelScore.addScore, this.labelScore);
-
 
   },
 
@@ -192,19 +243,8 @@ module.exports = {
     if (this.player.inWorld === false) {
       this.restartGame();
     }
-    game.physics.arcade.overlap(this.player, this.blocks, this.restartGame, null, this);
+    game.physics.arcade.overlap(this.player, this.blockz, this.restartGame, null, this);
 
-  },
-
-  addBlock: function () {
-    var x = 480,
-      y = ((Math.floor(Math.random() * 5) + 1) * 60) - 30;
-
-    var block = this.blocks.getFirstDead();
-    block.reset(x, y);
-    block.body.velocity.x = -200;
-    block.checkWorldBounds = true;
-    block.outOfBoundsKill = true;
   },
 
   restartGame: function () {
@@ -218,7 +258,7 @@ module.exports = {
   }
 
 };
-},{"../entity/player":1,"../entity/scoreText":2}],6:[function(require,module,exports){
+},{"../entity/blockGroup":2,"../entity/player":3,"../entity/scoreText":4}],8:[function(require,module,exports){
 /*globals module, require, localStorage*/
 
 var Phaser = (window.Phaser);
@@ -280,7 +320,7 @@ MainMenu.prototype.addPointerEvents = function () {
 MainMenu.prototype.startGame = function () {
   this.game.state.start('level1', true, false);
 };
-},{}],7:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 var Phaser = (window.Phaser);
 
 function Preloader() {
@@ -346,4 +386,4 @@ Preloader.prototype.showLoadingBarAndLogo = function () {
 
 
 module.exports = Preloader;
-},{}]},{},[3])
+},{}]},{},[5])
