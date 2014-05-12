@@ -25,7 +25,9 @@ MainMenu.prototype.create = function () {
 
   this.background = this.add.sprite(0, 0, 'menu_background');
   this.background.alpha = 0;
-
+  this.background.width = game.width;
+  this.background.height = game.height;
+  
   this.labelTitle = game.add.text(20, 20, "Tap to start", style);
   this.labelTitle.alpha = 0;
 

@@ -16,6 +16,13 @@ Preloader.prototype.preload = function () {
   game.load.image('menu_background', 'assets/menu_background.png');
   game.load.spritesheet('game_sprites', 'assets/game_sprites.png', 32, 32);
 
+
+  // Load the 'map.json' file using the TILDED_JSON special flag
+  game.load.tilemap('map', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
+
+  // Load the image 'level.png' and associate it in the cache as 'level'
+  game.load.image('level', 'assets/mytiles.png');
+
 };
 
 Preloader.prototype.create = function () {

@@ -6,7 +6,7 @@
   <link rel="stylesheet" media="all" href="../../../doc-style.css" />
   <script src="../../../doc-filelist.js"></script>
   <script>
-    var relativeDir = "../../../", thisFile = "home/flet/youlooknice/src/js/state/preloaderjs", defaultSidebar = true;
+    var relativeDir = "../../../", thisFile = "home/flet/projects/youlooknice/src/js/state/preloaderjs", defaultSidebar = true;
   </script>
   <script src="../../../doc-script.js"></script>
   <script src="../../../fileSearch.js"></script>
@@ -81,9 +81,20 @@
 <a class="line-num" href="#line-17" id="line-17">17</a>    <span class="nx">game</span><span class="p">.</span><span class="nx">load</span><span class="p">.</span><span class="nx">image</span><span class="p">(</span><span class="s1">&#39;menu_background&#39;</span><span class="p">,</span> <span class="s1">&#39;assets/menu_background.png&#39;</span><span class="p">);</span>
 <a class="line-num" href="#line-18" id="line-18">18</a>    <span class="nx">game</span><span class="p">.</span><span class="nx">load</span><span class="p">.</span><span class="nx">spritesheet</span><span class="p">(</span><span class="s1">&#39;game_sprites&#39;</span><span class="p">,</span> <span class="s1">&#39;assets/game_sprites.png&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
 <a class="line-num" href="#line-19" id="line-19">19</a>  
-<a class="line-num" href="#line-20" id="line-20">20</a>  <span class="p">};</span>
+<a class="line-num" href="#line-20" id="line-20">20</a>  
 <a class="line-num" href="#line-21" id="line-21">21</a>  
-<a class="line-num" href="#line-22" id="line-22">22</a>  <span class="nx">Preloader</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">create</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-22" id="line-22">22</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<p>Load the 'map.json' file using the TILDED_JSON special flag</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-21" id="line-21">21</a>  
+<a class="line-num" href="#line-22" id="line-22">22</a>    <span class="nx">game</span><span class="p">.</span><span class="nx">load</span><span class="p">.</span><span class="nx">tilemap</span><span class="p">(</span><span class="s1">&#39;map&#39;</span><span class="p">,</span> <span class="s1">&#39;assets/level1.json&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="nx">Phaser</span><span class="p">.</span><span class="nx">Tilemap</span><span class="p">.</span><span class="nx">TILED_JSON</span><span class="p">);</span>
 <a class="line-num" href="#line-23" id="line-23">23</a>  
 <a class="line-num" href="#line-24" id="line-24">24</a>  
 <a class="line-num" href="#line-25" id="line-25">25</a>  </pre></div>
@@ -92,41 +103,19 @@
       <tr>
         <td class="docs">
 <div class="pilwrap">
-  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
-</div>
-<p>on create, fade everything out</p>
-        </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-24" id="line-24">24</a>  
-<a class="line-num" href="#line-25" id="line-25">25</a>    <span class="kd">var</span> <span class="nx">tween</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">tween</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span><span class="p">).</span><span class="nx">to</span><span class="p">({</span>
-<a class="line-num" href="#line-26" id="line-26">26</a>      <span class="nx">alpha</span><span class="o">:</span> <span class="mi">0</span>
-<a class="line-num" href="#line-27" id="line-27">27</a>    <span class="p">},</span> <span class="mi">1000</span><span class="p">,</span> <span class="nx">Phaser</span><span class="p">.</span><span class="nx">Easing</span><span class="p">.</span><span class="nx">Linear</span><span class="p">.</span><span class="nx">None</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-<a class="line-num" href="#line-28" id="line-28">28</a>  
-<a class="line-num" href="#line-29" id="line-29">29</a>    <span class="nx">tween</span><span class="p">.</span><span class="nx">onComplete</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-30" id="line-30">30</a>      <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s1">&#39;mainMenu&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-<a class="line-num" href="#line-31" id="line-31">31</a>    <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
-<a class="line-num" href="#line-32" id="line-32">32</a>  <span class="p">};</span>
-<a class="line-num" href="#line-33" id="line-33">33</a>  
-<a class="line-num" href="#line-34" id="line-34">34</a>  <span class="nx">Preloader</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">showLoadingBarAndLogo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-35" id="line-35">35</a>  
-<a class="line-num" href="#line-36" id="line-36">36</a>    <span class="kd">var</span> <span class="nx">midx</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">world</span><span class="p">.</span><span class="nx">centerX</span><span class="p">;</span>
-<a class="line-num" href="#line-37" id="line-37">37</a>    <span class="kd">var</span> <span class="nx">midy</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">world</span><span class="p">.</span><span class="nx">centerY</span><span class="p">;</span>
-<a class="line-num" href="#line-38" id="line-38">38</a>  
-<a class="line-num" href="#line-39" id="line-39">39</a>  
-<a class="line-num" href="#line-40" id="line-40">40</a>  </pre></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="docs">
-<div class="pilwrap">
   <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
 </div>
-<p>This group is used to conveniently fade out all items in the create function.</p>
+<p>Load the image 'level.png' and associate it in the cache as 'level'</p>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-39" id="line-39">39</a>  
-<a class="line-num" href="#line-40" id="line-40">40</a>    <span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
-<a class="line-num" href="#line-41" id="line-41">41</a>  
-<a class="line-num" href="#line-42" id="line-42">42</a>  
-<a class="line-num" href="#line-43" id="line-43">43</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-24" id="line-24">24</a>  
+<a class="line-num" href="#line-25" id="line-25">25</a>    <span class="nx">game</span><span class="p">.</span><span class="nx">load</span><span class="p">.</span><span class="nx">image</span><span class="p">(</span><span class="s1">&#39;level&#39;</span><span class="p">,</span> <span class="s1">&#39;assets/mytiles.png&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-26" id="line-26">26</a>  
+<a class="line-num" href="#line-27" id="line-27">27</a>  <span class="p">};</span>
+<a class="line-num" href="#line-28" id="line-28">28</a>  
+<a class="line-num" href="#line-29" id="line-29">29</a>  <span class="nx">Preloader</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">create</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-30" id="line-30">30</a>  
+<a class="line-num" href="#line-31" id="line-31">31</a>  
+<a class="line-num" href="#line-32" id="line-32">32</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -134,18 +123,25 @@
 <div class="pilwrap">
   <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
 </div>
-<p>build loading bar and hook it to phaser
-Note that the loading bar was already loaded in the previous "boot" state</p>
+<p>on create, fade everything out</p>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-43" id="line-43">43</a>  
-<a class="line-num" href="#line-44" id="line-44">44</a>    <span class="kd">var</span> <span class="nx">loadingBar</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">sprite</span><span class="p">(</span><span class="nx">midx</span><span class="p">,</span> <span class="nx">midy</span> <span class="o">*</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s1">&#39;loadingBar&#39;</span><span class="p">);</span>
-<a class="line-num" href="#line-45" id="line-45">45</a>    <span class="nx">loadingBar</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
-<a class="line-num" href="#line-46" id="line-46">46</a>    <span class="nx">loadingBar</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
-<a class="line-num" href="#line-47" id="line-47">47</a>    <span class="k">this</span><span class="p">.</span><span class="nx">load</span><span class="p">.</span><span class="nx">setPreloadSprite</span><span class="p">(</span><span class="nx">loadingBar</span><span class="p">);</span>
-<a class="line-num" href="#line-48" id="line-48">48</a>    <span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">loadingBar</span><span class="p">);</span>
-<a class="line-num" href="#line-49" id="line-49">49</a>  
-<a class="line-num" href="#line-50" id="line-50">50</a>  
-<a class="line-num" href="#line-51" id="line-51">51</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-31" id="line-31">31</a>  
+<a class="line-num" href="#line-32" id="line-32">32</a>    <span class="kd">var</span> <span class="nx">tween</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">tween</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span><span class="p">).</span><span class="nx">to</span><span class="p">({</span>
+<a class="line-num" href="#line-33" id="line-33">33</a>      <span class="nx">alpha</span><span class="o">:</span> <span class="mi">0</span>
+<a class="line-num" href="#line-34" id="line-34">34</a>    <span class="p">},</span> <span class="mi">1000</span><span class="p">,</span> <span class="nx">Phaser</span><span class="p">.</span><span class="nx">Easing</span><span class="p">.</span><span class="nx">Linear</span><span class="p">.</span><span class="nx">None</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+<a class="line-num" href="#line-35" id="line-35">35</a>  
+<a class="line-num" href="#line-36" id="line-36">36</a>    <span class="nx">tween</span><span class="p">.</span><span class="nx">onComplete</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-37" id="line-37">37</a>      <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">start</span><span class="p">(</span><span class="s1">&#39;mainMenu&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<a class="line-num" href="#line-38" id="line-38">38</a>    <span class="p">},</span> <span class="k">this</span><span class="p">);</span>
+<a class="line-num" href="#line-39" id="line-39">39</a>  <span class="p">};</span>
+<a class="line-num" href="#line-40" id="line-40">40</a>  
+<a class="line-num" href="#line-41" id="line-41">41</a>  <span class="nx">Preloader</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">showLoadingBarAndLogo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<a class="line-num" href="#line-42" id="line-42">42</a>  
+<a class="line-num" href="#line-43" id="line-43">43</a>    <span class="kd">var</span> <span class="nx">midx</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">world</span><span class="p">.</span><span class="nx">centerX</span><span class="p">;</span>
+<a class="line-num" href="#line-44" id="line-44">44</a>    <span class="kd">var</span> <span class="nx">midy</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">world</span><span class="p">.</span><span class="nx">centerY</span><span class="p">;</span>
+<a class="line-num" href="#line-45" id="line-45">45</a>  
+<a class="line-num" href="#line-46" id="line-46">46</a>  
+<a class="line-num" href="#line-47" id="line-47">47</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -153,15 +149,13 @@ Note that the loading bar was already loaded in the previous "boot" state</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
 </div>
-<p>Create a sprite for the logo and fade it in while we load up assets</p>
+<p>This group is used to conveniently fade out all items in the create function.</p>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-50" id="line-50">50</a>  
-<a class="line-num" href="#line-51" id="line-51">51</a>    <span class="kd">var</span> <span class="nx">logo</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">sprite</span><span class="p">(</span><span class="nx">midx</span><span class="p">,</span> <span class="nx">midy</span> <span class="o">+</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;phaserLogo&#39;</span><span class="p">);</span>
-<a class="line-num" href="#line-52" id="line-52">52</a>    <span class="nx">logo</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">setTo</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
-<a class="line-num" href="#line-53" id="line-53">53</a>    <span class="nx">logo</span><span class="p">.</span><span class="nx">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<a class="line-num" href="#line-54" id="line-54">54</a>    <span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">logo</span><span class="p">);</span>
-<a class="line-num" href="#line-55" id="line-55">55</a>  
-<a class="line-num" href="#line-56" id="line-56">56</a>  </pre></div>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-46" id="line-46">46</a>  
+<a class="line-num" href="#line-47" id="line-47">47</a>    <span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">group</span><span class="p">();</span>
+<a class="line-num" href="#line-48" id="line-48">48</a>  
+<a class="line-num" href="#line-49" id="line-49">49</a>  
+<a class="line-num" href="#line-50" id="line-50">50</a>  </pre></div>
         </td>
       </tr>
       <tr>
@@ -169,10 +163,16 @@ Note that the loading bar was already loaded in the previous "boot" state</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
 </div>
-<p>tween the phaser logo</p>
+<p>build loading bar and hook it to phaser
+Note that the loading bar was already loaded in the previous "boot" state</p>
         </td>
-        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-55" id="line-55">55</a>  
-<a class="line-num" href="#line-56" id="line-56">56</a>    <span class="kd">var</span> <span class="nx">fadeIn</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">tween</span><span class="p">(</span><span class="nx">logo</span><span class="p">);</span>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-50" id="line-50">50</a>  
+<a class="line-num" href="#line-51" id="line-51">51</a>    <span class="kd">var</span> <span class="nx">loadingBar</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">sprite</span><span class="p">(</span><span class="nx">midx</span><span class="p">,</span> <span class="nx">midy</span> <span class="o">*</span> <span class="mf">1.8</span><span class="p">,</span> <span class="s1">&#39;loadingBar&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-52" id="line-52">52</a>    <span class="nx">loadingBar</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<a class="line-num" href="#line-53" id="line-53">53</a>    <span class="nx">loadingBar</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">;</span>
+<a class="line-num" href="#line-54" id="line-54">54</a>    <span class="k">this</span><span class="p">.</span><span class="nx">load</span><span class="p">.</span><span class="nx">setPreloadSprite</span><span class="p">(</span><span class="nx">loadingBar</span><span class="p">);</span>
+<a class="line-num" href="#line-55" id="line-55">55</a>    <span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">loadingBar</span><span class="p">);</span>
+<a class="line-num" href="#line-56" id="line-56">56</a>  
 <a class="line-num" href="#line-57" id="line-57">57</a>  
 <a class="line-num" href="#line-58" id="line-58">58</a>  </pre></div>
         </td>
@@ -182,19 +182,48 @@ Note that the loading bar was already loaded in the previous "boot" state</p>
 <div class="pilwrap">
   <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
 </div>
-<p>fade in</p>
+<p>Create a sprite for the logo and fade it in while we load up assets</p>
         </td>
         <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-57" id="line-57">57</a>  
-<a class="line-num" href="#line-58" id="line-58">58</a>    <span class="nx">fadeIn</span><span class="p">.</span><span class="nx">to</span><span class="p">({</span>
-<a class="line-num" href="#line-59" id="line-59">59</a>      <span class="nx">alpha</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
-<a class="line-num" href="#line-60" id="line-60">60</a>      <span class="nx">y</span><span class="o">:</span> <span class="nx">midy</span>
-<a class="line-num" href="#line-61" id="line-61">61</a>    <span class="p">},</span> <span class="mi">1000</span><span class="p">).</span><span class="nx">start</span><span class="p">();</span>
+<a class="line-num" href="#line-58" id="line-58">58</a>    <span class="kd">var</span> <span class="nx">logo</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">sprite</span><span class="p">(</span><span class="nx">midx</span><span class="p">,</span> <span class="nx">midy</span> <span class="o">+</span> <span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;phaserLogo&#39;</span><span class="p">);</span>
+<a class="line-num" href="#line-59" id="line-59">59</a>    <span class="nx">logo</span><span class="p">.</span><span class="nx">anchor</span><span class="p">.</span><span class="nx">setTo</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">);</span>
+<a class="line-num" href="#line-60" id="line-60">60</a>    <span class="nx">logo</span><span class="p">.</span><span class="nx">alpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<a class="line-num" href="#line-61" id="line-61">61</a>    <span class="k">this</span><span class="p">.</span><span class="nx">splashgroup</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">logo</span><span class="p">);</span>
 <a class="line-num" href="#line-62" id="line-62">62</a>  
-<a class="line-num" href="#line-63" id="line-63">63</a>  <span class="p">};</span>
+<a class="line-num" href="#line-63" id="line-63">63</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+</div>
+<p>tween the phaser logo</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-62" id="line-62">62</a>  
+<a class="line-num" href="#line-63" id="line-63">63</a>    <span class="kd">var</span> <span class="nx">fadeIn</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">add</span><span class="p">.</span><span class="nx">tween</span><span class="p">(</span><span class="nx">logo</span><span class="p">);</span>
 <a class="line-num" href="#line-64" id="line-64">64</a>  
-<a class="line-num" href="#line-65" id="line-65">65</a>  
-<a class="line-num" href="#line-66" id="line-66">66</a>  <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Preloader</span><span class="p">;</span>
-<a class="line-num" href="#line-67" id="line-67">67</a>  </pre></div>
+<a class="line-num" href="#line-65" id="line-65">65</a>  </pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+</div>
+<p>fade in</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><a class="line-num" href="#line-64" id="line-64">64</a>  
+<a class="line-num" href="#line-65" id="line-65">65</a>    <span class="nx">fadeIn</span><span class="p">.</span><span class="nx">to</span><span class="p">({</span>
+<a class="line-num" href="#line-66" id="line-66">66</a>      <span class="nx">alpha</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+<a class="line-num" href="#line-67" id="line-67">67</a>      <span class="nx">y</span><span class="o">:</span> <span class="nx">midy</span>
+<a class="line-num" href="#line-68" id="line-68">68</a>    <span class="p">},</span> <span class="mi">1000</span><span class="p">).</span><span class="nx">start</span><span class="p">();</span>
+<a class="line-num" href="#line-69" id="line-69">69</a>  
+<a class="line-num" href="#line-70" id="line-70">70</a>  <span class="p">};</span>
+<a class="line-num" href="#line-71" id="line-71">71</a>  
+<a class="line-num" href="#line-72" id="line-72">72</a>  
+<a class="line-num" href="#line-73" id="line-73">73</a>  <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Preloader</span><span class="p">;</span>
+<a class="line-num" href="#line-74" id="line-74">74</a>  </pre></div>
         </td>
       </tr>
   </tbody>

@@ -17,10 +17,13 @@ Block.prototype.constructor = Block;
 
 
 Block.prototype.revive = function () {
+  var max = this.game.height-30;
+  var min = 30;
   console.debug("Reviving block");
 
-  var x = 480;
-  var y = ((Math.floor(Math.random() * 5) + 1) * 60) - 30;
+  var x = this.game.width;
+  console.log(Math.random() * 5);
+  var y = Math.random() * (max - min) + min;
 
   this.reset(x, y);
   this.body.velocity.x = -200;
@@ -144,7 +147,7 @@ module.exports = ScoreText;
 var Phaser = (window.Phaser);
 
 // Create a new instance of phaser
-var game = new Phaser.Game(480, 320, Phaser.AUTO, 'content', null);
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', null);
 
 // Bring in all of our states via `require` calls.
 var boot = require('./state/boot.js');
@@ -224,17 +227,41 @@ module.exports = {
     var game = this.game;
     game.physics.startSystem(ARCADE);
 
-    this.background = this.add.tileSprite(0, 0, 480, 320, 'menu_background');
+    this.background = this.add.tileSprite(0, 0, game.width, game.height, 'menu_background');
     this.background.autoScroll(-100, 0);
 
     this.player = new Player(game);
     this.blockz = new BlockGroup(game);
     this.labelScore = new ScoreText(game);
 
+    game.camera.follow(this.player);
+
+
     this.input.onDown.add(this.player.jump, this);
 
     this.blockTimer = game.time.events.loop(500, this.blockz.addBlock, this.blockz);
     this.scoreTimer = game.time.events.loop(Phaser.Timer.SECOND, this.labelScore.addScore, this.labelScore);
+
+
+    // Add the tilemap 'map' to the game
+    this.map = game.add.tilemap('map');
+
+    // Add the tileset image 'level' to the map
+    // (The name must match both an image in Phaser's cache
+    //  and the name of an image withi the 'map.json'
+    //  list of tilesets too.)
+    this.map.addTilesetImage('level');
+
+    // Create a layer from the 'map.json' file
+    // based on 'Tile Layer 1' from the available tiles.
+    this.layer = this.map.createLayer('Tile Layer 1');
+
+          // Set the collision range 
+          //  Here, the range is from 1 (the first tile) to the fifth (last tile).
+    this.map.setCollisionBetween(1, 5);
+
+    // Tell the layer to resize the game 'world' to match its size
+          this.layer.resizeWorld();
 
   },
 
@@ -244,7 +271,7 @@ module.exports = {
       this.restartGame();
     }
     game.physics.arcade.overlap(this.player, this.blockz, this.restartGame, null, this);
-
+    game.physics.arcade.collide(this.player, this.layer);
   },
 
   restartGame: function () {
@@ -286,7 +313,9 @@ MainMenu.prototype.create = function () {
 
   this.background = this.add.sprite(0, 0, 'menu_background');
   this.background.alpha = 0;
-
+  this.background.width = game.width;
+  this.background.height = game.height;
+  
   this.labelTitle = game.add.text(20, 20, "Tap to start", style);
   this.labelTitle.alpha = 0;
 
@@ -338,6 +367,13 @@ Preloader.prototype.preload = function () {
   // load ALL assets
   game.load.image('menu_background', 'assets/menu_background.png');
   game.load.spritesheet('game_sprites', 'assets/game_sprites.png', 32, 32);
+
+
+  // Load the 'map.json' file using the TILDED_JSON special flag
+  game.load.tilemap('map', 'assets/level1.json', null, Phaser.Tilemap.TILED_JSON);
+
+  // Load the image 'level.png' and associate it in the cache as 'level'
+  game.load.image('level', 'assets/mytiles.png');
 
 };
 

@@ -16,10 +16,13 @@ Block.prototype.constructor = Block;
 
 
 Block.prototype.revive = function () {
+  var max = this.game.height-30;
+  var min = 30;
   console.debug("Reviving block");
 
-  var x = 480;
-  var y = ((Math.floor(Math.random() * 5) + 1) * 60) - 30;
+  var x = this.game.width;
+  console.log(Math.random() * 5);
+  var y = Math.random() * (max - min) + min;
 
   this.reset(x, y);
   this.body.velocity.x = -200;

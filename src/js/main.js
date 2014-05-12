@@ -13,7 +13,7 @@
 var Phaser = require('phaser');
 
 // Create a new instance of phaser
-var game = new Phaser.Game(480, 320, Phaser.AUTO, 'content', null);
+var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', null);
 
 // Bring in all of our states via `require` calls.
 var boot = require('./state/boot.js');

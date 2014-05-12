@@ -1,12 +1,19 @@
 /*
 This file is used by the `gulp` module in order to perform build-related tasks.
 
-Note that with gulp, each subtask is run asynchronously. This means they will 
+Note that with gulp, each subtask is run asynchronously. This means they will
 run *at the same time*, thus saving time. There are additional hoops to jump though to make them synchronous.
 
 See [Gulp](http://gulpjs.com) for more details.
 
- */
+Also notice that `require` statements are called within each gulp task instead of all at the top of the file.
+This is done so only modules that are used are loaded when gulp is run, which means "lighter" tasks will execute a few
+hundred milliseconds faster as they aren't loading unused modules.
+
+For example, when running `gulp help`, we don't need to load all the other heavy modules such
+as `docker` and `browserify` just to display the help task.
+
+*/
 
 // require the `gulp` module. Pretty important of this file! :)
 var gulp = require('gulp');
@@ -19,7 +26,7 @@ var paths = {
   markup: 'src/**/*.html',
   scriptsRoot: 'src/js/',
   scripts: 'src/js/**/*.js',
-  assets: ['src/assets/*.png', 'src/assets/*.jpg'],
+  assets: ['src/assets/*.png', 'src/assets/*.jpg','src/assets/*.json'],
   css: 'src/css/*.css',
   dist: 'dist',
   docsOutput: 'dist/docs',
@@ -56,7 +63,7 @@ gulp.task('lint-js', function () {
 ### build-js
 
 This subtask will prepare all JS files for output. This is done
-by running all files through `browserify`. This will prepare the 
+by running all files through `browserify`. This will prepare the
 files to be used by the front-end and concatenate them into a single
 `bundle.js` file, which is the file included on [index.html](src/index.html.html)
 
@@ -122,7 +129,7 @@ gulp.task('build-css', function () {
 /*
 ### build-docs
 
-This task will generate the HTML documentation web pages using [docker.js](http://jbt.github.io/docker/src/docker.js.html). 
+This task will generate the HTML documentation web pages using [docker.js](http://jbt.github.io/docker/src/docker.js.html).
 
 All documentation is extracted from comments directly in each JS file.
 
@@ -164,7 +171,7 @@ However, if a file is saved with a syntax error, it will kill the task. Just res
 
 
   This task will watch everything except `dist` and `node_modules` for documentation updates.
-  
+
  */
 gulp.task('watch', ['build', 'trigger-reload', 'build-markup-with-livereload', 'static-server'], function () {
 
@@ -212,7 +219,7 @@ gulp.task('trigger-reload', function () {
 ### build-markup-with-livereload
 
 This task will inject the necessary `<script>` tag into `index.html` in order to enable live
-reload via `watch`. This task should only need to be invoked as a 
+reload via `watch`. This task should only need to be invoked as a
 dependency to the `watch` task.
 
  */
@@ -227,7 +234,7 @@ gulp.task('build-markup-with-livereload', function () {
   ## help
 
   List all available tasks. This directly uses the `gulp-task-listing` module
-  to accomplish this. By default any tasks with a dash in the name is considered a 
+  to accomplish this. By default any tasks with a dash in the name is considered a
   "sub task" and will not be listed.
 
  */

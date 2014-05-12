@@ -70,19 +70,22 @@
 <a class="line-num" href="#line-17" id="line-17">17</a>  
 <a class="line-num" href="#line-18" id="line-18">18</a>  
 <a class="line-num" href="#line-19" id="line-19">19</a>  <span class="nx">Block</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">revive</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-<a class="line-num" href="#line-20" id="line-20">20</a>    <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;Reviving block&quot;</span><span class="p">);</span>
-<a class="line-num" href="#line-21" id="line-21">21</a>  
-<a class="line-num" href="#line-22" id="line-22">22</a>    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="mi">480</span><span class="p">;</span>
-<a class="line-num" href="#line-23" id="line-23">23</a>    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">((</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span> <span class="o">-</span> <span class="mi">30</span><span class="p">;</span>
-<a class="line-num" href="#line-24" id="line-24">24</a>  
-<a class="line-num" href="#line-25" id="line-25">25</a>    <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
-<a class="line-num" href="#line-26" id="line-26">26</a>    <span class="k">this</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">velocity</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">200</span><span class="p">;</span>
-<a class="line-num" href="#line-27" id="line-27">27</a>    <span class="k">this</span><span class="p">.</span><span class="nx">checkWorldBounds</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-<a class="line-num" href="#line-28" id="line-28">28</a>    <span class="k">this</span><span class="p">.</span><span class="nx">outOfBoundsKill</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-<a class="line-num" href="#line-29" id="line-29">29</a>  <span class="p">};</span>
-<a class="line-num" href="#line-30" id="line-30">30</a>  
-<a class="line-num" href="#line-31" id="line-31">31</a>  <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Block</span><span class="p">;</span>
-<a class="line-num" href="#line-32" id="line-32">32</a>  </pre></div>
+<a class="line-num" href="#line-20" id="line-20">20</a>    <span class="kd">var</span> <span class="nx">max</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">height</span><span class="o">-</span><span class="mi">30</span><span class="p">;</span>
+<a class="line-num" href="#line-21" id="line-21">21</a>    <span class="kd">var</span> <span class="nx">min</span> <span class="o">=</span> <span class="mi">30</span><span class="p">;</span>
+<a class="line-num" href="#line-22" id="line-22">22</a>    <span class="nx">console</span><span class="p">.</span><span class="nx">debug</span><span class="p">(</span><span class="s2">&quot;Reviving block&quot;</span><span class="p">);</span>
+<a class="line-num" href="#line-23" id="line-23">23</a>  
+<a class="line-num" href="#line-24" id="line-24">24</a>    <span class="kd">var</span> <span class="nx">x</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">game</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+<a class="line-num" href="#line-25" id="line-25">25</a>    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">5</span><span class="p">);</span>
+<a class="line-num" href="#line-26" id="line-26">26</a>    <span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="p">(</span><span class="nx">max</span> <span class="o">-</span> <span class="nx">min</span><span class="p">)</span> <span class="o">+</span> <span class="nx">min</span><span class="p">;</span>
+<a class="line-num" href="#line-27" id="line-27">27</a>  
+<a class="line-num" href="#line-28" id="line-28">28</a>    <span class="k">this</span><span class="p">.</span><span class="nx">reset</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">);</span>
+<a class="line-num" href="#line-29" id="line-29">29</a>    <span class="k">this</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">velocity</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">200</span><span class="p">;</span>
+<a class="line-num" href="#line-30" id="line-30">30</a>    <span class="k">this</span><span class="p">.</span><span class="nx">checkWorldBounds</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<a class="line-num" href="#line-31" id="line-31">31</a>    <span class="k">this</span><span class="p">.</span><span class="nx">outOfBoundsKill</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+<a class="line-num" href="#line-32" id="line-32">32</a>  <span class="p">};</span>
+<a class="line-num" href="#line-33" id="line-33">33</a>  
+<a class="line-num" href="#line-34" id="line-34">34</a>  <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Block</span><span class="p">;</span>
+<a class="line-num" href="#line-35" id="line-35">35</a>  </pre></div>
         </td>
       </tr>
   </tbody>
