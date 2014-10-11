@@ -1,5 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var Phaser = (window.Phaser);
+(function (global){
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 //  Here is a custom game object
 function Block(game) {
@@ -32,8 +33,10 @@ Block.prototype.revive = function () {
 };
 
 module.exports = Block;
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],2:[function(require,module,exports){
-var Phaser = (window.Phaser);
+(function (global){
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 var Block = require('./block.js');
 
 //  Here is a custom game object
@@ -59,8 +62,10 @@ BlockGroup.prototype.addBlock = function () {
 };
 
 module.exports = BlockGroup;
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./block.js":1}],3:[function(require,module,exports){
-var Phaser = (window.Phaser);
+(function (global){
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 //  Here is a custom game object
 function Player(game) {
@@ -85,8 +90,10 @@ Player.prototype.jump = function () {
 };
 
 module.exports = Player;
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],4:[function(require,module,exports){
-var Phaser = (window.Phaser);
+(function (global){
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 //  Here is a custom game object
 function ScoreText(game) {
@@ -131,7 +138,9 @@ ScoreText.prototype.resetScore = function () {
 };
 
 module.exports = ScoreText;
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],5:[function(require,module,exports){
+(function (global){
 /**
  * This is the main entry point of the game. We `require` Phaser as
  * well as all of our states and add those states to the `game`.
@@ -144,7 +153,7 @@ module.exports = ScoreText;
 // Note that the phaser lib is not actually part of this project anywhere.
 // Instead, we're using the CDN copy of phaser via `browserify-shim`.
 // You'll see a reference to the CDN copy in  [index.html](../index.html.html)
-var Phaser = (window.Phaser);
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 // Create a new instance of phaser
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'content', null);
@@ -165,8 +174,10 @@ game.state.add('level1', level1, false);
 // Kick off the game by starting up the `boot` state
 game.state.start('boot');
 // See [boot.js](state/boot.js.html) for the next step
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./state/boot.js":6,"./state/level1":7,"./state/mainMenu":8,"./state/preloader":9}],6:[function(require,module,exports){
-var Phaser = (window.Phaser);
+(function (global){
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 function Boot(game) {
   console.debug("creating Boot state!", game);
@@ -211,10 +222,12 @@ Boot.prototype.create = function () {
 };
 
 module.exports = Boot;
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],7:[function(require,module,exports){
+(function (global){
 /* globals module, require*/
 
-var Phaser = (window.Phaser);
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 var ARCADE = Phaser.Physics.ARCADE;
 
@@ -285,10 +298,12 @@ module.exports = {
   }
 
 };
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"../entity/blockGroup":2,"../entity/player":3,"../entity/scoreText":4}],8:[function(require,module,exports){
+(function (global){
 /*globals module, require, localStorage*/
 
-var Phaser = (window.Phaser);
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 module.exports = MainMenu;
 
@@ -349,8 +364,10 @@ MainMenu.prototype.addPointerEvents = function () {
 MainMenu.prototype.startGame = function () {
   this.game.state.start('level1', true, false);
 };
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],9:[function(require,module,exports){
-var Phaser = (window.Phaser);
+(function (global){
+var Phaser = (typeof window !== "undefined" ? window.Phaser : typeof global !== "undefined" ? global.Phaser : null);
 
 function Preloader() {
   this.logo = null;
@@ -422,4 +439,5 @@ Preloader.prototype.showLoadingBarAndLogo = function () {
 
 
 module.exports = Preloader;
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[5])
