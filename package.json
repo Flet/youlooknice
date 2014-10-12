@@ -30,7 +30,7 @@
     "phaser": "global:Phaser"
   },
   "description": "A starting point for a game with Phaser, with sample game (flappy birds clone).",
-  "main": "gulpfile.js",
+
   "scripts": {
     "start": "node_modules/.bin/gulp build && node_modules/.bin/gulp static-server",
     "test": "echo \"Error: no test specified\" && exit 1"
